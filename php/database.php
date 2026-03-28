@@ -51,10 +51,6 @@ class MulagoDatabase {
     $this->db->exec("CREATE TABLE clinic_notices (id INTEGER PRIMARY KEY, content TEXT, is_active BOOLEAN DEFAULT 0, updated_at DATETIME DEFAULT CURRENT_TIMESTAMP)");
 
     $this->db->exec("CREATE TABLE special_closures (id INTEGER PRIMARY KEY, closure_date TEXT NOT NULL, reason TEXT NOT NULL, affected_department_id INTEGER, is_active BOOLEAN DEFAULT 1, created_at DATETIME DEFAULT CURRENT_TIMESTAMP, FOREIGN KEY (affected_department_id) REFERENCES departments(id))");
-
-    $this->seedLookupTables();
-    $this->seedDoctorsTable();
-    $this->seedClinicHours();
   }
 
   private function seedLookupTables() {
@@ -117,25 +113,33 @@ class MulagoDatabase {
   private function seedDoctorsTable() {
     $doctors = [
       // Cardiology
-      ['name' => 'Dr. James Katumba', 'department' => 'cardiology', 'qualifications' => 'MD, Cardiology Fellowship', 'phone' => '+256 700 123456', 'available_days' => 'Mon,Tue,Wed,Thu,Fri', 'room' => 'A201', 'is_active' => 1],
-      ['name' => 'Dr. Sarah Nakku', 'department' => 'cardiology', 'qualifications' => 'MD, Cardiology Residency', 'phone' => '+256 700 123457', 'available_days' => 'Tue,Wed,Thu', 'room' => 'A202', 'is_active' => 1],
+      ['name' => 'Prof. Charles Odeke', 'department' => 'cardiology', 'qualifications' => 'MBChB, MMed (Int Med), PhD', 'phone' => '+256 700 100001', 'available_days' => 'Mon,Wed,Fri', 'room' => 'Block A - 201', 'is_active' => 1],
+      ['name' => 'Dr. Ritah Namugga', 'department' => 'cardiology', 'qualifications' => 'MBChB, MMed (Cardio)', 'phone' => '+256 700 100002', 'available_days' => 'Tue,Thu', 'room' => 'Block A - 202', 'is_active' => 1],
       // Surgery
-      ['name' => 'Dr. Paul Ouma', 'department' => 'surgery', 'qualifications' => 'MD, General Surgery', 'phone' => '+256 700 123458', 'available_days' => 'Mon,Wed,Fri', 'room' => 'B101', 'is_active' => 1],
-      ['name' => 'Dr. Monica Kiprotich', 'department' => 'surgery', 'qualifications' => 'MD, Advanced Surgical', 'phone' => '+256 700 123459', 'available_days' => 'Tue,Wed,Thu', 'room' => 'B102', 'is_active' => 1],
+      ['name' => 'Dr. John Wasswa', 'department' => 'surgery', 'qualifications' => 'MBChB, MMed (Surg), FCS', 'phone' => '+256 700 100007', 'available_days' => 'Tue,Thu,Fri', 'room' => 'Block D - 401', 'is_active' => 1],
+      ['name' => 'Dr. Patience Nakato', 'department' => 'surgery', 'qualifications' => 'MBChB, MMed (Surg)', 'phone' => '+256 700 100008', 'available_days' => 'Mon,Wed', 'room' => 'Block D - 402', 'is_active' => 1],
       // Paediatrics
-      ['name' => 'Dr. Grace Ampurire', 'department' => 'paediatrics', 'qualifications' => 'MD, Paediatrics', 'phone' => '+256 700 123460', 'available_days' => 'Mon,Tue,Wed,Thu', 'room' => 'C101', 'is_active' => 1],
-      ['name' => 'Dr. Charles Musisi', 'department' => 'paediatrics', 'qualifications' => 'MD, Paediatric Emergency', 'phone' => '+256 700 123461', 'available_days' => 'Tue,Wed,Thu,Fri', 'room' => 'C102', 'is_active' => 1],
+      ['name' => 'Dr. Samuel Okello', 'department' => 'paediatrics', 'qualifications' => 'MBChB, MMed (Paeds)', 'phone' => '+256 700 100005', 'available_days' => 'Mon,Tue,Wed,Thu,Fri', 'room' => 'Block C - 301', 'is_active' => 1],
+      ['name' => 'Dr. Grace Apio', 'department' => 'paediatrics', 'qualifications' => 'MBChB, MMed, MMED', 'phone' => '+256 700 100006', 'available_days' => 'Mon,Wed,Fri', 'room' => 'Block C - 302', 'is_active' => 1],
       // Oncology
-      ['name' => 'Dr. Victoria Kamya', 'department' => 'oncology', 'qualifications' => 'MD, Medical Oncology', 'phone' => '+256 700 123462', 'available_days' => 'Wed,Thu,Fri', 'room' => 'D101', 'is_active' => 1],
+      ['name' => 'Dr. Peter Ogwang', 'department' => 'oncology', 'qualifications' => 'MBChB, MMed (Onco), FCPS', 'phone' => '+256 700 100003', 'available_days' => 'Mon,Tue,Thu', 'room' => 'Block B - 105', 'is_active' => 1],
+      ['name' => 'Dr. Florence Nabwire', 'department' => 'oncology', 'qualifications' => 'MBChB, MMed, FCPS', 'phone' => '+256 700 100004', 'available_days' => 'Wed,Fri', 'room' => 'Block B - 106', 'is_active' => 0],
       // Neurology
-      ['name' => 'Dr. David Muwonge', 'department' => 'neurology', 'qualifications' => 'MD, Neurology', 'phone' => '+256 700 123463', 'available_days' => 'Mon,Tue,Wed,Thu', 'room' => 'E101', 'is_active' => 1],
-      // Orthopaedics
-      ['name' => 'Dr. Robert Kiggundu', 'department' => 'orthopaedics', 'qualifications' => 'MD, Orthopaedic Surgery', 'phone' => '+256 700 123464', 'available_days' => 'Tue,Wed,Thu,Fri', 'room' => 'F101', 'is_active' => 1],
-      // Dermatology
-      ['name' => 'Dr. Jessica Nabwire', 'department' => 'dermatology', 'qualifications' => 'MD, Dermatology', 'phone' => '+256 700 123465', 'available_days' => 'Mon,Tue,Wed', 'room' => 'G101', 'is_active' => 1],
+      ['name' => 'Dr. Emmanuel Ssenyonga', 'department' => 'neurology', 'qualifications' => 'MBChB, MMed (Neuro)', 'phone' => '+256 700 100009', 'available_days' => 'Mon,Tue,Fri', 'room' => 'Block E - 501', 'is_active' => 0],
       // Obstetrics & Gynaecology
-      ['name' => 'Dr. Judith Namubiru', 'department' => 'obgyn', 'qualifications' => 'MD, Obstetrics & Gynaecology', 'phone' => '+256 700 123466', 'available_days' => 'Mon,Tue,Wed,Thu,Fri', 'room' => 'H101', 'is_active' => 1],
-      ['name' => 'Dr. Emma Namusoke', 'department' => 'obgyn', 'qualifications' => 'MD, Advanced OB/GYN', 'phone' => '+256 700 123467', 'available_days' => 'Tue,Wed,Thu', 'room' => 'H102', 'is_active' => 1],
+      ['name' => 'Dr. Josephine Atim', 'department' => 'obgyn', 'qualifications' => 'MBChB, MMed (O&G)', 'phone' => '+256 700 100010', 'available_days' => 'Mon,Tue,Wed,Thu,Fri', 'room' => 'Block F - 601', 'is_active' => 1],
+      // Orthopaedics
+      ['name' => 'Dr. Ronald Byaruhanga', 'department' => 'orthopaedics', 'qualifications' => 'MBChB, MMed (Ortho), FCS', 'phone' => '+256 700 100011', 'available_days' => 'Tue,Thu', 'room' => 'Block D - 405', 'is_active' => 1],
+      // Ophthalmology
+      ['name' => 'Dr. Agnes Kiconco', 'department' => 'ophthalmology', 'qualifications' => 'MBChB, MMed (Ophth)', 'phone' => '+256 700 100012', 'available_days' => 'Mon,Wed,Thu', 'room' => 'Block G - 701', 'is_active' => 1],
+      // Psychiatry
+      ['name' => 'Dr. David Ochieng', 'department' => 'psychiatry', 'qualifications' => 'MBChB, MMed (Psych), PhD', 'phone' => '+256 700 100013', 'available_days' => 'Tue,Wed,Fri', 'room' => 'Block H - 801', 'is_active' => 1],
+      // Dermatology
+      ['name' => 'Dr. Sarah Tumusiime', 'department' => 'dermatology', 'qualifications' => 'MBChB, MMed (Derm)', 'phone' => '+256 700 100014', 'available_days' => 'Mon,Thu', 'room' => 'Block A - 210', 'is_active' => 1],
+      // Internal Medicine
+      ['name' => 'Dr. Isaac Mwesige', 'department' => 'internal_medicine', 'qualifications' => 'MBChB, MMed (Int Med)', 'phone' => '+256 700 100015', 'available_days' => 'Mon,Tue,Wed,Thu,Fri', 'room' => 'Block A - 101', 'is_active' => 1],
+      // Radiology
+      ['name' => 'Dr. Rebecca Abalo', 'department' => 'radiology', 'qualifications' => 'MBChB, MMed (Radio)', 'phone' => '+256 700 100016', 'available_days' => 'Mon,Tue,Thu', 'room' => 'Imaging Centre', 'is_active' => 1],
     ];
 
     foreach ($doctors as $doctor) {
@@ -688,6 +692,14 @@ class MulagoDatabase {
   public function removeSpecialClosure($closureId) {
     $stmt = $this->db->prepare("UPDATE special_closures SET is_active = 0 WHERE id = ?");
     $stmt->execute([$closureId]);
+    return true;
+  }
+
+  // ─── PUBLIC SEEDING METHOD (Manual/Optional) ──────────────────────────────
+  public function seedDatabase() {
+    $this->seedLookupTables();
+    $this->seedDoctorsTable();
+    $this->seedClinicHours();
     return true;
   }
 

@@ -29,7 +29,6 @@
     <a href="walkin.html"><span class="nav-icon">🕐</span> Clinic Hours</a>
     <div class="nav-section-label">System</div>
     <a href="../index.html"><span class="nav-icon">🌐</span> View Public Site</a>
-    <a href="settings.html"><span class="nav-icon">⚙️</span> Settings</a>
   </nav>
   <div class="sidebar-footer">
     <div class="sidebar-user">
@@ -67,7 +66,6 @@
     <div class="table-card" style="padding:18px 22px">
       <div style="display:flex;flex-wrap:wrap;gap:10px;align-items:center">
         <input type="text" id="search-input" placeholder="🔍  Search name, NIN, reference…" style="flex:1;min-width:200px;padding:8px 12px;border:1px solid #d1d5db;border-radius:6px;font-size:.85rem">
-        <input type="date" id="filter-date" style="padding:8px 12px;border:1px solid #d1d5db;border-radius:6px;font-size:.85rem" title="Filter by preferred appointment date">
         <select id="filter-dept" style="padding:8px 12px;border:1px solid #d1d5db;border-radius:6px;font-size:.85rem">
           <option value="">All Departments</option>
           <option value="cardiology">Cardiology</option>
@@ -216,13 +214,11 @@ async function fetchAppointments() {
   const search = document.getElementById('search-input').value;
   const dept = document.getElementById('filter-dept').value;
   const status = document.getElementById('filter-status').value;
-  const date = document.getElementById('filter-date')?.value;
 
   const params = new URLSearchParams();
   if (search) params.append('search', search);
   if (dept) params.append('dept', dept);
   if (status) params.append('status', status);
-  if (date) params.append('date', date);
   params.append('page', currentPage);
 
   try {
@@ -490,7 +486,7 @@ document.getElementById('logout-btn').addEventListener('click', async () => {
 });
 
 // ── FILTER EVENTS ───────────────────────────────────────────────────────────
-['search-input', 'filter-dept', 'filter-status', 'filter-date'].forEach(id => {
+['search-input', 'filter-dept', 'filter-status'].forEach(id => {
   const el = document.getElementById(id);
   if (!el) return;
   el.addEventListener('change', () => {

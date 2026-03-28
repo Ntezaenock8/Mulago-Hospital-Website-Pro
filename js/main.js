@@ -42,7 +42,7 @@ document.addEventListener('DOMContentLoaded', () => {
   updateWalkInStatus();
 
   // ─── SPECIALIST DIRECTORY FILTER ──────────────────────────
-  setupSpecialistFilter();
+  loadSpecialists();
 
   // ─── APPOINTMENT FORM ─────────────────────────────────────
   setupAppointmentForm();
@@ -89,24 +89,34 @@ function updateWalkInStatus() {
 }
 
 // ─── SPECIALIST DIRECTORY ────────────────────────────────────
-const specialists = [
-  { name: 'Prof. Charles Odeke',    dept: 'Cardiology',        qual: 'MBChB, MMed (Int Med), PhD', days: 'Mon, Wed, Fri', available: true,  room: 'Block A - 201' },
-  { name: 'Dr. Ritah Namugga',      dept: 'Cardiology',        qual: 'MBChB, MMed (Cardio)',        days: 'Tue, Thu',      available: true,  room: 'Block A - 202' },
-  { name: 'Dr. Peter Ogwang',       dept: 'Oncology',          qual: 'MBChB, MMed (Onco), FCPS',    days: 'Mon, Tue, Thu', available: true,  room: 'Block B - 105' },
-  { name: 'Dr. Florence Nabwire',   dept: 'Oncology',          qual: 'MBChB, MMed, FCPS',           days: 'Wed, Fri',      available: false, room: 'Block B - 106' },
-  { name: 'Dr. Samuel Okello',      dept: 'Paediatrics',       qual: 'MBChB, MMed (Paeds)',         days: 'Mon–Fri',       available: true,  room: 'Block C - 301' },
-  { name: 'Dr. Grace Apio',         dept: 'Paediatrics',       qual: 'MBChB, MMed, MMED',           days: 'Mon, Wed, Fri', available: true,  room: 'Block C - 302' },
-  { name: 'Dr. John Wasswa',        dept: 'Surgery',           qual: 'MBChB, MMed (Surg), FCS',     days: 'Tue, Thu, Fri', available: true,  room: 'Block D - 401' },
-  { name: 'Dr. Patience Nakato',    dept: 'Surgery',           qual: 'MBChB, MMed (Surg)',          days: 'Mon, Wed',      available: true,  room: 'Block D - 402' },
-  { name: 'Dr. Emmanuel Ssenyonga', dept: 'Neurology',         qual: 'MBChB, MMed (Neuro)',         days: 'Mon, Tue, Fri', available: false, room: 'Block E - 501' },
-  { name: 'Dr. Josephine Atim',     dept: 'Obstetrics & Gynae',qual: 'MBChB, MMed (O&G)',           days: 'Mon–Fri',       available: true,  room: 'Block F - 601' },
-  { name: 'Dr. Ronald Byaruhanga',  dept: 'Orthopaedics',      qual: 'MBChB, MMed (Ortho), FCS',   days: 'Tue, Thu',      available: true,  room: 'Block D - 405' },
-  { name: 'Dr. Agnes Kiconco',      dept: 'Ophthalmology',     qual: 'MBChB, MMed (Ophth)',         days: 'Mon, Wed, Thu', available: true,  room: 'Block G - 701' },
-  { name: 'Dr. David Ochieng',      dept: 'Psychiatry',        qual: 'MBChB, MMed (Psych), PhD',   days: 'Tue, Wed, Fri', available: true,  room: 'Block H - 801' },
-  { name: 'Dr. Sarah Tumusiime',    dept: 'Dermatology',       qual: 'MBChB, MMed (Derm)',          days: 'Mon, Thu',      available: true,  room: 'Block A - 210' },
-  { name: 'Dr. Isaac Mwesige',      dept: 'Internal Medicine', qual: 'MBChB, MMed (Int Med)',       days: 'Mon–Fri',       available: true,  room: 'Block A - 101' },
-  { name: 'Dr. Rebecca Abalo',      dept: 'Radiology',         qual: 'MBChB, MMed (Radio)',         days: 'Mon, Tue, Thu', available: true,  room: 'Imaging Centre' },
-];
+let specialists = [];
+
+async function loadSpecialists() {
+  try {
+    const response = await fetch('php/get_specialists.php');
+    const data = await response.json();
+    
+    // Transform API response to frontend format
+    specialists = data.map(doc => ({
+      name: doc.name,
+      dept: doc.dept,
+      qual: doc.qualifications,
+      days: doc.days.join(', ') || 'N/A',
+      available: doc.status === 'available',
+      room: doc.room
+    }));
+    
+    // Now setup the filter with fetched data
+    setupSpecialistFilter();
+  } catch (err) {
+    console.error('Failed to load specialists:', err);
+    // Fallback: show error in table
+    const table = document.getElementById('specialist-tbody');
+    if (table) {
+      table.innerHTML = `<tr><td colspan="7" class="no-results">Unable to load specialists. Please try again later.</td></tr>`;
+    }
+  }
+}
 
 function setupSpecialistFilter() {
   const table = document.getElementById('specialist-tbody');
@@ -119,6 +129,12 @@ function setupSpecialistFilter() {
 
   // Populate departments
   const depts = [...new Set(specialists.map(s => s.dept))].sort();
+  
+  // Clear existing department options (keep placeholder)
+  while (deptFilter.options.length > 1) {
+    deptFilter.remove(1);
+  }
+  
   depts.forEach(d => {
     const opt = document.createElement('option');
     opt.value = d; opt.textContent = d;
