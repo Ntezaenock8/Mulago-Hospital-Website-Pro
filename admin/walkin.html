@@ -1,0 +1,328 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Clinic Hours — Mulago Hospital Admin</title>
+  <link rel="stylesheet" href="../css/admin.css">
+</head>
+<body class="admin-dashboard">
+
+<!-- SIDEBAR -->
+<aside class="admin-sidebar" id="admin-sidebar">
+  <div class="sidebar-header">
+    <div class="sidebar-logo">
+      <div class="icon">🏥</div>
+      <div><strong>Mulago Hospital</strong><span>Admin Portal</span></div>
+    </div>
+  </div>
+  <nav class="sidebar-nav">
+    <div class="nav-section-label">Main</div>
+    <a href="dashboard.html"><span class="nav-icon">📊</span> Dashboard</a>
+    <a href="appointments.html"><span class="nav-icon">📋</span> Appointments</a>
+    <a href="specialists.html"><span class="nav-icon">👨‍⚕️</span> Manage Specialists</a>
+    <div class="nav-section-label">Content</div>
+    <a href="alerts.html"><span class="nav-icon">📢</span> Health Alerts</a>
+    <a href="walkin.html" class="active"><span class="nav-icon">🕐</span> Clinic Hours</a>
+    <div class="nav-section-label">System</div>
+    <a href="../index_public.html"><span class="nav-icon">🌐</span> View Public Site</a>
+    <a href="settings.html"><span class="nav-icon">⚙️</span> Settings</a>
+  </nav>
+  <div class="sidebar-footer">
+    <div class="sidebar-user">
+      <div class="user-avatar">👤</div>
+      <div class="user-info"><strong>Admin User</strong><span>Hospital Administrator</span></div>
+    </div>
+    <button class="logout-btn" id="logout-btn">🚪 Sign Out</button>
+  </div>
+</aside>
+
+<!-- MAIN -->
+<main class="admin-main">
+  <header class="admin-topbar">
+    <button class="mobile-menu-btn" id="mobile-menu-btn" style="display:none"><span></span><span></span><span></span></button>
+    <div class="page-title">
+      <h1>Walk-In Clinic Hours</h1>
+      <p>Edit public-facing clinic schedules and department availability</p>
+    </div>
+    <div class="topbar-right">
+      <span class="topbar-time" id="admin-clock">—</span>
+    </div>
+  </header>
+
+  <div class="admin-content">
+
+    <!-- LIVE STATUS PREVIEW -->
+    <div class="table-card" style="padding:20px 24px;display:flex;align-items:center;gap:20px;flex-wrap:wrap">
+      <div>
+        <div style="font-size:.72rem;text-transform:uppercase;letter-spacing:.07em;color:#9ca3af;margin-bottom:4px">Live Public Status</div>
+        <div id="live-status" style="font-size:1.1rem;font-weight:700"></div>
+        <div id="live-detail" style="font-size:.82rem;color:#6b7280;margin-top:2px"></div>
+      </div>
+      <div style="margin-left:auto">
+        <a href="../walkin_public.html" target="_blank" class="action-btn" style="padding:8px 16px;font-size:.82rem;display:inline-block">🌐 Preview Public Page ↗</a>
+      </div>
+    </div>
+
+    <!-- NOTICE BANNER -->
+    <div class="table-card" style="padding:20px 24px">
+      <h3 style="font-size:.95rem;margin-bottom:12px">📢 Emergency Notice Banner</h3>
+      <div style="display:flex;gap:10px;align-items:flex-start;flex-wrap:wrap">
+        <textarea id="notice-text" rows="2" placeholder="e.g. 'Walk-in paediatrics closed this Friday for training'" style="flex:1;min-width:260px;padding:9px 12px;border:1px solid #d1d5db;border-radius:6px;font-size:.85rem;font-family:inherit;resize:none;transition:border-color .2s"></textarea>
+        <div style="display:flex;flex-direction:column;gap:8px">
+          <label style="font-size:.75rem;font-weight:600;color:#374151;text-transform:uppercase">Show Notice?</label>
+          <label style="display:flex;align-items:center;gap:6px;cursor:pointer;font-size:.85rem">
+            <input type="checkbox" id="notice-active" style="width:16px;height:16px;cursor:pointer">
+            Active
+          </label>
+          <button id="save-notice" class="action-btn confirm" style="padding:8px 14px;font-size:.82rem">Save Notice</button>
+        </div>
+      </div>
+      <div id="notice-preview" style="margin-top:12px;padding:10px 14px;background:#fef3c7;border-left:3px solid #f59e0b;border-radius:4px;font-size:.82rem;display:none"></div>
+    </div>
+
+    <!-- CLINIC SCHEDULE EDITOR -->
+    <div class="table-card">
+      <div style="display:flex;justify-content:space-between;align-items:center;padding:16px 22px;border-bottom:1px solid #f3f4f6">
+        <div>
+          <h3 style="font-size:.95rem">Department Clinic Schedule</h3>
+          <p style="font-size:.78rem;color:#9ca3af">Set open/closed days and consultation hours per department</p>
+        </div>
+        <button id="save-all-btn" class="action-btn confirm" style="padding:9px 18px">💾 Save All Changes</button>
+      </div>
+      <div style="overflow-x:auto">
+        <table class="admin-table" id="hours-table">
+          <thead>
+            <tr>
+              <th>Department</th>
+              <th>Mon</th>
+              <th>Tue</th>
+              <th>Wed</th>
+              <th>Thu</th>
+              <th>Fri</th>
+              <th>Sat</th>
+              <th>Sun</th>
+              <th>Open Time</th>
+              <th>Close Time</th>
+              <th>Walk-In Fee (UGX)</th>
+              <th>Notes</th>
+            </tr>
+          </thead>
+          <tbody id="hours-tbody"></tbody>
+        </table>
+      </div>
+    </div>
+
+  </div>
+</main>
+
+<style>
+.toggle-day { width:28px;height:28px;border-radius:50%;border:2px solid #d1d5db;background:#f9fafb;cursor:pointer;font-size:.65rem;font-weight:700;transition:all .15s; }
+.toggle-day.on { background:#0a2e2e;border-color:#0a2e2e;color:#fff; }
+.hours-input { padding:4px 6px;border:1px solid #d1d5db;border-radius:4px;font-size:.78rem;width:72px; }
+.notes-input { padding:4px 6px;border:1px solid #d1d5db;border-radius:4px;font-size:.78rem;width:140px; }
+.fee-input { padding:4px 6px;border:1px solid #d1d5db;border-radius:4px;font-size:.78rem;width:90px; }
+.closure-item { display:flex;align-items:center;gap:10px;padding:8px 12px;background:#f9fafb;border-radius:6px;margin-bottom:6px;font-size:.84rem; }
+.closure-item .date { font-family:monospace;font-weight:700;color:#0a2e2e; }
+</style>
+
+<script src="../js/admin.js"></script>
+<script>
+if(!sessionStorage.getItem('admin_logged_in'))location.href='index.html';
+document.getElementById('logout-btn').addEventListener('click',()=>{sessionStorage.removeItem('admin_logged_in');location.href='index.html';});
+function updateClock(){const n=new Date();document.getElementById('admin-clock').textContent=n.toLocaleTimeString('en-GB',{hour:'2-digit',minute:'2-digit',second:'2-digit',timeZone:'Africa/Nairobi'})+' EAT';}
+updateClock();setInterval(updateClock,1000);
+
+// ── LIVE STATUS ──────────────────────────────────────────────────────────────
+function updateLiveStatus(){
+  const now=new Date(new Date().toLocaleString('en-US',{timeZone:'Africa/Nairobi'}));
+  const h=now.getHours(),m=now.getMinutes();
+  const day=now.getDay();
+  const mins=h*60+m;
+  const open=8*60,close=17*60;
+  const isWeekday=day>=1&&day<=5;
+  const isOpen=isWeekday&&mins>=open&&mins<close;
+  const el=document.getElementById('live-status');
+  const detail=document.getElementById('live-detail');
+  if(isOpen){
+    el.innerHTML='<span style="color:#16a34a">● OPEN</span>';
+    const left=close-mins;
+    detail.textContent=`Closes in ${Math.floor(left/60)}h ${left%60}m`;
+  } else {
+    el.innerHTML='<span style="color:#dc2626">● CLOSED</span>';
+    if(!isWeekday)detail.textContent='Closed weekends — emergency services available 24/7';
+    else if(mins<open)detail.textContent=`Opens at 08:00 — in ${Math.floor((open-mins)/60)}h ${(open-mins)%60}m`;
+    else detail.textContent='Reopens Monday 08:00';
+  }
+}
+updateLiveStatus();setInterval(updateLiveStatus,10000);
+
+// ── SCHEDULE DATA & RENDERING ─────────────────────────────────────────────────
+let schedule=[];
+const DAYS=['Sun','Mon','Tue','Wed','Thu','Fri','Sat'];
+
+// Fetch clinic hours from backend
+async function loadClinicHours(){
+  try{
+    const res=await fetch('../php/get_clinic_hours.php');
+    if (!res.ok) {
+      throw new Error(`HTTP ${res.status}`);
+    }
+    const json=await res.json();
+    if(json.success && json.data){
+      schedule=json.data;
+      renderSchedule();
+    } else {
+      showToast('Failed to load clinic hours: ' + (json.error || 'Unknown error'), 'error');
+      console.error('API Error:', json);
+    }
+  }catch(err){
+    console.error('Failed to load clinic hours:',err);
+    showToast('Failed to load clinic hours: ' + err.message, 'error');
+  }
+}
+
+function renderSchedule(){
+  const tbody=document.getElementById('hours-tbody');
+  tbody.innerHTML=schedule.map((row,idx)=>`
+    <tr>
+      <td style="font-weight:600;font-size:.85rem;min-width:160px">${row.department}</td>
+      ${['monday','tuesday','wednesday','thursday','friday','saturday','sunday'].map(d=>{
+        const isOn=row[d];
+        return `<td style="text-align:center">
+          <button class="toggle-day ${isOn?'on':''}" data-row="${idx}" data-day="${d}" title="${d.charAt(0).toUpperCase()+d.slice(1)}">
+            ${DAYS[[0,1,2,3,4,5,6][['sunday','monday','tuesday','wednesday','thursday','friday','saturday'].indexOf(d)]]}
+          </button>
+        </td>`;
+      }).join('')}
+      <td><input class="hours-input" type="time" data-row="${idx}" data-field="open_time" value="${row.open_time}"></td>
+      <td><input class="hours-input" type="time" data-row="${idx}" data-field="close_time" value="${row.close_time}"></td>
+      <td><input class="fee-input" type="text" data-row="${idx}" data-field="walk_in_fee" value="${row.walk_in_fee}" placeholder="Free"></td>
+      <td><input class="notes-input" type="text" data-row="${idx}" data-field="notes" value="${row.notes}" placeholder="Optional note"></td>
+    </tr>
+  `).join('');
+
+  // Day toggle buttons
+  tbody.querySelectorAll('.toggle-day').forEach(btn=>{
+    btn.addEventListener('click',()=>{
+      const row=+btn.dataset.row;
+      const day=btn.dataset.day;
+      schedule[row][day]=schedule[row][day]?0:1;
+      btn.classList.toggle('on');
+    });
+  });
+
+  // Input changes
+  tbody.querySelectorAll('input[data-row]').forEach(inp=>{
+    inp.addEventListener('input',()=>{
+      const row=+inp.dataset.row,field=inp.dataset.field;
+      if(field)schedule[row][field]=inp.value;
+    });
+  });
+}
+
+// Save all changes to backend
+document.getElementById('save-all-btn').addEventListener('click',async()=>{
+  const btn=document.getElementById('save-all-btn');
+  btn.disabled=true;
+  btn.textContent='Saving...';
+  
+  const promises=schedule.map(row=>
+    fetch('../php/save_clinic_hours.php',{
+      method:'POST',
+      headers:{'Content-Type':'application/json'},
+      body:JSON.stringify({
+        department:row.code,
+        monday:row.monday,tuesday:row.tuesday,wednesday:row.wednesday,thursday:row.thursday,friday:row.friday,
+        saturday:row.saturday,sunday:row.sunday,
+        open_time:row.open_time,close_time:row.close_time,fee:row.walk_in_fee,notes:row.notes
+      })
+    }).then(r=>r.json()).catch(e=>({success:false,error:e.message}))
+  );
+
+  const results=await Promise.all(promises);
+  const hasErrors=results.some(r=>!r.success);
+
+  if(hasErrors){
+    showToast('Some updates failed','error');
+  }else{
+    showToast('All changes saved successfully!','success');
+  }
+
+  btn.disabled=false;
+  btn.textContent='💾 Save All Changes';
+});
+
+// ── NOTICE BANNER ──────────────────────────────────────────────────────────────
+async function loadNotice(){
+  try{
+    const res=await fetch('../php/get_emergency_notice.php');
+    if (!res.ok) {
+      throw new Error(`HTTP ${res.status}`);
+    }
+    const json=await res.json();
+    if(json.success){
+      document.getElementById('notice-text').value=json.data.content||'';
+      document.getElementById('notice-active').checked=!!json.data.is_active;
+      previewNotice();
+    } else {
+      console.error('Failed to load notice:', json);
+    }
+  }catch(err){
+    console.error('Failed to load notice:',err);
+  }
+}
+
+function previewNotice(){
+  const t=document.getElementById('notice-text').value.trim();
+  const el=document.getElementById('notice-preview');
+  if(t&&document.getElementById('notice-active').checked){el.style.display='block';el.textContent='⚠️ '+t;}
+  else el.style.display='none';
+}
+loadNotice();
+document.getElementById('notice-text').addEventListener('input',previewNotice);
+document.getElementById('notice-active').addEventListener('change',previewNotice);
+
+document.getElementById('save-notice').addEventListener('click',async()=>{
+  const btn=document.getElementById('save-notice');
+  btn.disabled=true;
+  btn.textContent='Saving...';
+  
+  try{
+    const res=await fetch('../php/save_emergency_notice.php',{
+      method:'POST',
+      headers:{'Content-Type':'application/json'},
+      body:JSON.stringify({
+        content:document.getElementById('notice-text').value.trim(),
+        is_active:document.getElementById('notice-active').checked?1:0
+      })
+    });
+    const json=await res.json();
+    if(json.success){
+      showToast('Notice saved successfully!','success');
+    }else{
+      showToast('Failed to save notice: ' + (json.error || 'Unknown error'),'error');
+      console.error('Save error:', json);
+    }
+  }catch(err){
+    showToast('Failed to save notice: ' + err.message,'error');
+    console.error('Request error:', err);
+  }finally{
+    btn.disabled=false;
+    btn.textContent='Save Notice';
+  }
+});
+
+// Initial load
+loadClinicHours();
+
+function showToast(msg,type='info'){
+  const t=document.createElement('div');
+  t.textContent=msg;
+  t.style.cssText=`position:fixed;bottom:24px;right:24px;z-index:9999;padding:10px 20px;border-radius:8px;font-size:.85rem;font-weight:600;color:#fff;background:${type==='success'?'#16a34a':type==='error'?'#dc2626':'#0a2e2e'};box-shadow:0 4px 12px rgba(0,0,0,.2);transition:opacity .3s`;
+  document.body.appendChild(t);
+  setTimeout(()=>{t.style.opacity='0';setTimeout(()=>t.remove(),300);},2500);
+}
+</script>
+</body>
+</html>

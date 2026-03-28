@@ -1,0 +1,518 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Mulago National Referral Hospital — Uganda</title>
+  <meta name="description" content="Mulago National Referral Hospital — Uganda's premier public health institution. Book appointments, find specialists, and access health information.">
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+<!-- EMERGENCY NOTICE BANNER (loaded from backend) -->
+<div id="alert-banner" style="display:none;align-items:center;justify-content:space-between">
+  <span id="notice-content"></span>
+  <button class="alert-close" aria-label="Close">✕</button>
+</div>
+
+<!-- TOP BAR -->
+<div class="topbar">
+  <div class="container">
+    <span>Ministry of Health, Republic of Uganda &nbsp;·&nbsp; ISO 9001:2015 Certified</span>
+  </div>
+</div>
+
+<!-- NAVBAR -->
+<nav class="navbar">
+  <div class="container">
+    <div class="navbar-brand">
+      <div class="navbar-logo">M</div>
+      <div class="navbar-name">
+        <strong style="font-size:1.1rem;display:block">Mulago National Referral Hospital</strong>
+        <small>Est. 1913 · Kampala, Uganda</small>
+      </div>
+    </div>
+    <ul class="nav-links" id="nav-links">
+      <li><a href="index.html" class="active">Home</a></li>
+      <li><a href="directorates_public.html">Directorates</a></li>
+      <li><a href="specialists_public.html">Specialists</a></li>
+      <li><a href="walkin_public.html">Walk-In Hours</a></li>
+      <li><a href="alerts_public.html">Health Alerts</a></li>
+      <li><a href="appointment_public.html" class="nav-book-btn">Book Appointment</a></li>
+    </ul>
+    <button class="hamburger" id="hamburger" aria-label="Open menu">
+      <span></span><span></span><span></span>
+    </button>
+  </div>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="container">
+    <div class="hero-grid">
+      <div>
+        <p class="hero-kicker">Uganda's Premier Referral Centre</p>
+        <h1>Healing Uganda,<br><em>One Life</em> at a Time</h1>
+        <p class="hero-desc">
+          Mulago National Referral Hospital is the country's largest public health institution,
+          serving over 1,500 patients daily across 12 specialized institutes. Book your appointment
+          digitally and skip the queue.
+        </p>
+        <div class="hero-actions">
+          <a href="appointment_public.html" class="btn btn--amber">📋 Book Appointment</a>
+          <a href="specialists_public.html" class="btn btn--outline" style="color:white;border-color:rgba(255,255,255,.5)">👨‍⚕️ Find a Specialist</a>
+        </div>
+        <div class="hero-stats">
+          <div class="hero-stat">
+            <div class="num">1,500+</div>
+            <div class="lbl">Daily Patients</div>
+          </div>
+          <div class="hero-stat">
+            <div class="num">1,790</div>
+            <div class="lbl">Bed Capacity</div>
+          </div>
+          <div class="hero-stat">
+            <div class="num">12</div>
+            <div class="lbl">Institutes</div>
+          </div>
+          <div class="hero-stat">
+            <div class="num">24/7</div>
+            <div class="lbl">Emergency Care</div>
+          </div>
+        </div>
+      </div>
+      <div class="hero-card">
+        <h3>Emergency Contacts</h3>
+        <div class="contact-item">
+          <div class="contact-icon">🚨</div>
+          <div>
+            <div class="lbl">Toll-Free Emergency Line</div>
+            <div class="val"><a href="tel:0800100066">0800-100-066</a></div>
+          </div>
+        </div>
+        <div class="contact-item">
+          <div class="contact-icon">🏥</div>
+          <div>
+            <div class="lbl">Accident & Emergency</div>
+            <div class="val"><a href="tel:0414541888">+256 414 541 888</a></div>
+          </div>
+        </div>
+        <div class="contact-item">
+          <div class="contact-icon">🧪</div>
+          <div>
+            <div class="lbl">Laboratory Results</div>
+            <div class="val"><a href="tel:0414541890">+256 414 541 890</a></div>
+          </div>
+        </div>
+        <div class="contact-item">
+          <div class="contact-icon">🚑</div>
+          <div>
+            <div class="lbl">Ambulance Dispatch</div>
+            <div class="val"><a href="tel:0414541892">+256 414 541 892</a></div>
+          </div>
+        </div>
+        <div class="contact-item">
+          <div class="contact-icon">💬</div>
+          <div>
+            <div class="lbl">WhatsApp Helpdesk</div>
+            <div class="val"><a href="#">+256 750 066 666</a></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- QUICK ACCESS -->
+<div class="quick-access">
+  <div class="container">
+    <a href="appointment_public.html" class="qa-item">
+      <div class="qa-icon">📋</div>
+      <div class="qa-text">
+        <div class="t">Book Online</div>
+        <div class="v">Appointment</div>
+      </div>
+    </a>
+    <a href="walkin_public.html" class="qa-item">
+      <div class="qa-icon">🚶</div>
+      <div class="qa-text">
+        <div class="t">No Booking Needed</div>
+        <div class="v">Walk-In Clinics</div>
+      </div>
+    </a>
+    <a href="specialists_public.html" class="qa-item">
+      <div class="qa-icon">👨‍⚕️</div>
+      <div class="qa-text">
+        <div class="t">Consultant Schedule</div>
+        <div class="v">Specialist Directory</div>
+      </div>
+    </a>
+    <a href="alerts_public.html" class="qa-item">
+      <div class="qa-icon">📢</div>
+      <div class="qa-text">
+        <div class="t">Latest Updates</div>
+        <div class="v">Health Alerts</div>
+      </div>
+    </a>
+  </div>
+</div>
+
+<!-- DIRECTORATES OVERVIEW -->
+<section class="section-pad">
+  <div class="container">
+    <div class="section-header">
+      <p class="eyebrow">Our Institutes</p>
+      <h2>Specialized Directorates</h2>
+      <p>Mulago operates twelve specialist institutes, each with dedicated consultants, theatres, and wards. Find the right institute for your care.</p>
+    </div>
+    <div class="directorates-grid">
+      <div class="directorate-card">
+        <div class="dir-icon">❤️</div>
+        <h3>Uganda Heart Institute</h3>
+        <p>Comprehensive cardiac care including interventional cardiology, cardiac surgery, and echocardiography. Uganda's only public cardiac catheterization lab.</p>
+        <div class="dir-meta">
+          <span class="badge">Cardiology</span>
+          <span class="badge">Block A</span>
+          <span class="badge">+256 414 541 900</span>
+        </div>
+      </div>
+      <div class="directorate-card">
+        <div class="dir-icon">🎗️</div>
+        <h3>Uganda Cancer Institute</h3>
+        <p>Uganda's sole public cancer treatment centre offering chemotherapy, radiotherapy, and palliative services. Free services for eligible patients.</p>
+        <div class="dir-meta">
+          <span class="badge">Oncology</span>
+          <span class="badge">Block B</span>
+          <span class="badge">+256 414 541 910</span>
+        </div>
+      </div>
+      <div class="directorate-card">
+        <div class="dir-icon">🧠</div>
+        <h3>Neurosciences Unit</h3>
+        <p>Diagnosis and management of stroke, epilepsy, brain tumours, spinal cord injuries, and other neurological conditions.</p>
+        <div class="dir-meta">
+          <span class="badge">Neurology</span>
+          <span class="badge">Block E</span>
+          <span class="badge">+256 414 541 920</span>
+        </div>
+      </div>
+      <div class="directorate-card">
+        <div class="dir-icon">🍼</div>
+        <h3>Neonatal &amp; Paediatric Unit</h3>
+        <p>Specialist care for newborns and children including NICU, paediatric surgery, and child nutrition programmes.</p>
+        <div class="dir-meta">
+          <span class="badge">Paediatrics</span>
+          <span class="badge">Block C</span>
+          <span class="badge">+256 414 541 930</span>
+        </div>
+      </div>
+      <div class="directorate-card">
+        <div class="dir-icon">🤰</div>
+        <h3>Reproductive Health Unit</h3>
+        <p>Antenatal, delivery, postnatal, and gynaecology services. High-risk obstetric management and family planning.</p>
+        <div class="dir-meta">
+          <span class="badge">Obs &amp; Gynae</span>
+          <span class="badge">Block F</span>
+          <span class="badge">+256 414 541 940</span>
+        </div>
+      </div>
+      <div class="directorate-card">
+        <div class="dir-icon">🦴</div>
+        <h3>Orthopaedic &amp; Trauma Centre</h3>
+        <p>Bone and joint surgery, trauma care, physiotherapy, and rehabilitation. Uganda's main trauma referral point.</p>
+        <div class="dir-meta">
+          <span class="badge">Orthopaedics</span>
+          <span class="badge">Block D</span>
+          <span class="badge">+256 414 541 950</span>
+        </div>
+      </div>
+      <div class="directorate-card">
+        <div class="dir-icon">👁️</div>
+        <h3>Uganda Eye Centre</h3>
+        <p>Cataract surgery, glaucoma management, diabetic retinopathy, corneal disease, and low-vision services.</p>
+        <div class="dir-meta">
+          <span class="badge">Ophthalmology</span>
+          <span class="badge">Block G</span>
+          <span class="badge">+256 414 541 960</span>
+        </div>
+      </div>
+      <div class="directorate-card">
+        <div class="dir-icon">🧪</div>
+        <h3>Pathology &amp; Laboratory</h3>
+        <p>Full clinical pathology services including haematology, microbiology, histopathology, and molecular diagnostics.</p>
+        <div class="dir-meta">
+          <span class="badge">Laboratory</span>
+          <span class="badge">Ground Floor</span>
+          <span class="badge">+256 414 541 970</span>
+        </div>
+      </div>
+    </div>
+    <div style="text-align:center;margin-top:32px">
+      <a href="directorates_public.html" class="btn btn--outline">View All 12 Directorates →</a>
+    </div>
+  </div>
+</section>
+
+<!-- APPOINTMENT CTA SECTION -->
+<section class="appointment-section section-pad">
+  <div class="container">
+    <div class="appt-grid">
+      <div class="appt-info">
+        <span class="badge badge--amber">Digital Intake</span>
+        <h2 style="margin-top:12px">Skip the Paper Queue</h2>
+        <p>
+          No more traveling to Mulago just to join a queue and be told to come back tomorrow.
+          Submit your appointment request digitally — we'll confirm via SMS within 24 hours.
+        </p>
+        <ul class="appt-steps">
+          <li>
+            <div class="step-num">1</div>
+            <div class="step-text">
+              <strong>Fill the Form</strong>
+              <span>Enter your name, National ID (NIN), and reason for visit.</span>
+            </div>
+          </li>
+          <li>
+            <div class="step-num">2</div>
+            <div class="step-text">
+              <strong>Get a Reference Code</strong>
+              <span>You receive a unique booking reference code immediately.</span>
+            </div>
+          </li>
+          <li>
+            <div class="step-num">3</div>
+            <div class="step-text">
+              <strong>SMS Confirmation</strong>
+              <span>Hospital admin confirms your date and assigns a consultant within 24hrs.</span>
+            </div>
+          </li>
+          <li>
+            <div class="step-num">4</div>
+            <div class="step-text">
+              <strong>Attend Your Appointment</strong>
+              <span>Come at your confirmed time with your NIN and reference code. No waiting.</span>
+            </div>
+          </li>
+        </ul>
+      </div>
+
+      <!-- EMBEDDED QUICK BOOKING FORM -->
+      <div class="appt-form-card" id="appt-form-wrap">
+        <h3>Request an Appointment</h3>
+        <p class="subtitle">Free service · Digital confirmation · No paper forms</p>
+        <form id="appt-form" novalidate>
+          <div class="form-row">
+            <div class="form-group">
+              <label for="f-fname">First Name <span class="required">*</span></label>
+              <input type="text" id="f-fname" name="first_name" class="form-control" placeholder="e.g. Sarah" required>
+            </div>
+            <div class="form-group">
+              <label for="f-lname">Last Name <span class="required">*</span></label>
+              <input type="text" id="f-lname" name="last_name" class="form-control" placeholder="e.g. Nakato" required>
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="f-nin">National ID (NIN) <span class="required">*</span></label>
+            <input type="text" id="f-nin" name="nin" class="form-control" placeholder="e.g. CM90001234567A" required maxlength="14">
+            <p class="form-hint">14-character National Identification Number as printed on your card.</p>
+          </div>
+          <div class="form-row">
+            <div class="form-group">
+              <label for="f-phone">Phone Number <span class="required">*</span></label>
+              <input type="tel" id="f-phone" name="phone" class="form-control" placeholder="07XXXXXXXX" required>
+            </div>
+            <div class="form-group">
+              <label for="f-dob">Date of Birth</label>
+              <input type="date" id="f-dob" name="dob" class="form-control">
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="f-dept">Department <span class="required">*</span></label>
+            <select id="f-dept" name="department" class="form-control" required>
+              <option value="">— Select Department —</option>
+              <option>Cardiology</option>
+              <option>Oncology</option>
+              <option>Paediatrics</option>
+              <option>Surgery</option>
+              <option>Neurology</option>
+              <option>Obstetrics &amp; Gynae</option>
+              <option>Orthopaedics</option>
+              <option>Ophthalmology</option>
+              <option>Psychiatry</option>
+              <option>Dermatology</option>
+              <option>Internal Medicine</option>
+              <option>Radiology</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label for="f-reason">Reason for Visit <span class="required">*</span></label>
+            <textarea id="f-reason" name="reason" class="form-control" placeholder="Briefly describe your symptoms or the purpose of your visit…" required></textarea>
+          </div>
+          <div class="form-group">
+            <label for="f-pref-date">Preferred Date</label>
+            <input type="date" id="f-pref-date" name="preferred_date" class="form-control">
+          </div>
+          <button type="submit" class="btn btn--primary form-submit">Submit Appointment Request</button>
+        </form>
+        <div class="form-success" id="appt-success">
+          <div class="check">✓</div>
+          <h4>Request Submitted!</h4>
+          <p>Your appointment request has been received. You will receive an SMS confirmation within 24 hours.</p>
+          <p style="margin-top:8px">Your reference code:</p>
+          <div class="ref-code" id="ref-number">MNR-XXXXXX</div>
+          <p style="margin-top:16px;font-size:.8rem;color:#9ca3af">Please save this code and bring your NIN on the day of your appointment.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- HEALTH ALERTS PREVIEW -->
+<section class="alerts-section section-pad">
+  <div class="container">
+    <div class="section-header">
+      <p class="eyebrow">Public Health</p>
+      <h2>Latest Health Alerts</h2>
+      <p>Official notices from Mulago Hospital and the Ministry of Health Uganda.</p>
+    </div>
+    <div class="alerts-grid">
+      <div class="alert-card alert-urgent">
+        <div class="alert-card-header">
+          <div class="alert-type-icon">🦟</div>
+          <div>
+            <span class="badge badge--red">Urgent</span>
+            <div style="font-size:.72rem;color:#9ca3af;font-family:var(--font-mono);margin-top:4px">Jul 12, 2025</div>
+          </div>
+        </div>
+        <div class="alert-card-body">
+          <h4>Malaria Surge — Kampala Central &amp; Wakiso</h4>
+          <p>Cases have increased 40% in the last 4 weeks. Sleep under treated nets. Free rapid testing at Mulago OPD Mon–Sat 8AM–4PM.</p>
+        </div>
+        <div class="alert-card-footer">
+          <span>Ministry of Health Uganda</span>
+          <span class="badge">Active</span>
+        </div>
+      </div>
+      <div class="alert-card alert-campaign">
+        <div class="alert-card-header">
+          <div class="alert-type-icon">💉</div>
+          <div>
+            <span class="badge badge--amber">Campaign</span>
+            <div style="font-size:.72rem;color:#9ca3af;font-family:var(--font-mono);margin-top:4px">Jul 01, 2025</div>
+          </div>
+        </div>
+        <div class="alert-card-body">
+          <h4>Childhood Vaccination Drive — July 2025</h4>
+          <p>Free vaccines for children under 5: Measles-Rubella, Polio, and Pentavalent. Available at all Mulago satellite clinics countrywide.</p>
+        </div>
+        <div class="alert-card-footer">
+          <span>Paediatrics Directorate</span>
+          <span class="badge">Active</span>
+        </div>
+      </div>
+      <div class="alert-card alert-info">
+        <div class="alert-card-header">
+          <div class="alert-type-icon">ℹ️</div>
+          <div>
+            <span class="badge">Notice</span>
+            <div style="font-size:.72rem;color:#9ca3af;font-family:var(--font-mono);margin-top:4px">Jun 25, 2025</div>
+          </div>
+        </div>
+        <div class="alert-card-body">
+          <h4>New Digital Appointment System Live</h4>
+          <p>Patients can now book appointments online at mulago.go.ug. Reduces waiting time by an estimated 60%. Confirmation via SMS within 24 hours.</p>
+        </div>
+        <div class="alert-card-footer">
+          <span>Hospital Administration</span>
+          <span class="badge">Info</span>
+        </div>
+      </div>
+    </div>
+    <div style="text-align:center;margin-top:32px">
+      <a href="alerts_public.html" class="btn btn--outline">View All Alerts →</a>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="container">
+    <div class="footer-grid">
+      <div class="footer-brand">
+        <div class="navbar-logo" style="width:44px;height:44px;font-size:1.1rem">M</div>
+        <strong>Mulago National Referral Hospital</strong>
+        <p>Uganda's premier public health institution, providing free and subsidised tertiary health care since 1913. Located on Mulago Hill, Kampala.</p>
+        <div style="margin-top:16px;font-family:var(--font-mono);font-size:.75rem;color:rgba(255,255,255,0.4)">
+          P.O. Box 7051, Kampala, Uganda<br>
+          enquiries@mulago.go.ug
+        </div>
+      </div>
+      <div class="footer-col">
+        <h4>Services</h4>
+        <ul>
+          <li><a href="directorates_public.html">All Directorates</a></li>
+          <li><a href="specialists_public.html">Specialist Directory</a></li>
+          <li><a href="appointment_public.html">Book Appointment</a></li>
+          <li><a href="walkin_public.html">Walk-In Clinics</a></li>
+          <li><a href="alerts_public.html">Health Alerts</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>Emergency</h4>
+        <ul>
+          <li><a href="tel:0800100066">0800-100-066 (Free)</a></li>
+          <li><a href="tel:0414541888">A&amp;E: +256 414 541 888</a></li>
+          <li><a href="tel:0414541892">Ambulance: +256 414 541 892</a></li>
+          <li><a href="#">WhatsApp: +256 750 066 666</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>Administration</h4>
+        <ul>
+          <li><a href="admin/index.html">Admin Portal</a></li>
+          <li><a href="#">Staff Directory</a></li>
+          <li><a href="#">Annual Reports</a></li>
+          <li><a href="#">Procurement</a></li>
+          <li><a href="#">Media Centre</a></li>
+        </ul>
+      </div>
+    </div>
+  </div>
+  <div class="container">
+    <div class="footer-bottom">
+      <span>© 2025 Mulago National Referral Hospital. Built as an educational web technology project.</span>
+      <span><a href="#">Privacy Policy</a> · <a href="#">Terms of Use</a> · <a href="#">Accessibility</a></span>
+    </div>
+  </div>
+</footer>
+
+<button id="scrollTop" aria-label="Scroll to top">↑</button>
+<div class="toast-container" id="toast-container"></div>
+
+<script src="js/main.js"></script>
+<script>
+// Load emergency notice banner from backend
+async function loadEmergencyNotice(){
+  try{
+    const res=await fetch('php/get_emergency_notice.php');
+    const json=await res.json();
+    if(json.success && json.data && json.data.is_active && json.data.content){
+      const banner=document.getElementById('alert-banner');
+      const content=document.getElementById('notice-content');
+      if(banner && content){
+        content.innerHTML='🚨 '+json.data.content;
+        banner.style.display='flex';
+      }
+    }
+  }catch(err){
+    console.error('Failed to load emergency notice:',err);
+  }
+}
+
+// Load on page load
+loadEmergencyNotice();
+// Refresh every 5 minutes
+setInterval(loadEmergencyNotice, 5*60*1000);
+</script>
+</body>
+</html>

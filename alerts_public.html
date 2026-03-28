@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Health Alerts — Mulago National Referral Hospital</title>
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+<div class="topbar"><div class="container">
+  <span>Ministry of Health, Republic of Uganda</span>
+  <a href="tel:0800100066" class="topbar-emergency">🚨 0800-100-066 FREE</a>
+</div></div>
+
+<nav class="navbar"><div class="container">
+  <div class="navbar-brand">
+    <div class="navbar-logo">M</div>
+    <div class="navbar-name"><strong style="font-size:1.1rem;display:block">Mulago National Referral Hospital</strong><small>Est. 1913 · Kampala, Uganda</small></div>
+  </div>
+  <ul class="nav-links" id="nav-links">
+    <li><a href="index_public.html">Home</a></li>
+    <li><a href="directorates_public.html">Directorates</a></li>
+    <li><a href="specialists_public.html">Specialists</a></li>
+    <li><a href="walkin_public.html">Walk-In Hours</a></li>
+    <li><a href="alerts_public.html" class="active">Health Alerts</a></li>
+    <li><a href="appointment_public.html" class="nav-book-btn">Book Appointment</a></li>
+  </ul>
+  <button class="hamburger" id="hamburger"><span></span><span></span><span></span></button>
+</div></nav>
+
+<div class="page-hero"><div class="container">
+  <div class="breadcrumb"><a href="index_public.html">Home</a> › Health Alerts</div>
+  <h1>Health Alerts &amp; Public Notices</h1>
+  <p>Official health notices, vaccination campaigns, disease alerts, and service announcements from Mulago Hospital and the Ministry of Health.</p>
+</div></div>
+
+<section class="section-pad"><div class="container">
+  <div class="alerts-grid" id="alerts-grid">
+    <div style="padding:40px;text-align:center;color:#9ca3af;font-size:.85rem">Loading health alerts...</div>
+  </div>
+</div></section>
+
+<footer><div class="container">
+  <div class="footer-bottom" style="border-top:1px solid rgba(255,255,255,.1);padding:16px 0">
+    <span>© 2025 Mulago National Referral Hospital · Educational Project</span>
+  </div>
+</div></footer>
+
+<button id="scrollTop">↑</button>
+<script src="js/main.js"></script>
+<script>
+// ── FETCH ACTIVE ALERTS FROM BACKEND ─────────────────────────────────────────
+async function loadAlerts() {
+  try {
+    const response = await fetch('php/get_alerts.php?scope=public');
+    const data = await response.json();
+
+    if (!data.success) {
+      console.error('Failed to load alerts:', data.error);
+      document.getElementById('alerts-grid').innerHTML = `
+        <div style="padding:40px;text-align:center;color:#9ca3af;font-size:.85rem">
+          Unable to load health alerts. Please try again later.
+        </div>
+      `;
+      return;
+    }
+
+    const alerts = data.data || [];
+    renderAlerts(alerts);
+
+  } catch (err) {
+    console.error('Error loading alerts:', err.message);
+    document.getElementById('alerts-grid').innerHTML = `
+      <div style="padding:40px;text-align:center;color:#9ca3af;font-size:.85rem">
+        Error loading alerts. Please refresh the page.
+      </div>
+    `;
+  }
+}
+
+// ── RENDER ALERT CARDS ───────────────────────────────────────────────────────
+function renderAlerts(alerts) {
+  const grid = document.getElementById('alerts-grid');
+
+  if (alerts.length === 0) {
+    grid.innerHTML = `
+      <div style="padding:40px;text-align:center;color:#9ca3af;font-size:.85rem">
+        No health alerts at this time. Check back soon for updates.
+      </div>
+    `;
+    return;
+  }
+
+  const icons = { urgent:'🚨', campaign:'💉', info:'ℹ️', maintenance:'🔧' };
+  const severityClasses = {
+    urgent: 'alert-urgent',
+    campaign: 'alert-campaign',
+    info: 'alert-info',
+    maintenance: 'alert-info'
+  };
+
+  grid.innerHTML = alerts.map(alert => {
+    const published = new Date(alert.published_at);
+    const dateStr = published.toLocaleDateString('en-UG', { 
+      year: 'numeric', 
+      month: 'short', 
+      day: 'numeric' 
+    });
+    const icon = icons[alert.severity] || '📢';
+    const cardClass = severityClasses[alert.severity] || 'alert-info';
+    const badgeClass = alert.severity === 'urgent' ? 'badge--red' : alert.severity === 'campaign' ? 'badge--amber' : '';
+    const badgeText = alert.severity.charAt(0).toUpperCase() + alert.severity.slice(1);
+
+    return `
+      <div class="alert-card ${cardClass}">
+        <div class="alert-card-header">
+          <div class="alert-type-icon">${icon}</div>
+          <div>
+            <span class="badge ${badgeClass}">${badgeText}</span>
+            <div style="font-size:.72rem;color:#9ca3af;font-family:var(--font-mono);margin-top:4px">${dateStr}</div>
+          </div>
+        </div>
+        <div class="alert-card-body">
+          <h4>${alert.title}</h4>
+          <p>${alert.content}</p>
+        </div>
+        <div class="alert-card-footer">
+          <span>Mulago Hospital</span>
+          <span class="badge">Active Alert</span>
+        </div>
+      </div>
+    `;
+  }).join('');
+}
+
+// ── INIT ────────────────────────────────────────────────────────────────────
+document.addEventListener('DOMContentLoaded', () => {
+  console.log('Loading active health alerts from backend...');
+  loadAlerts();
+  // Refresh alerts every 30 seconds
+  setInterval(loadAlerts, 30000);
+});
+</script>
+</body>
+</html>

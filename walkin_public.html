@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Walk-In Clinic Hours — Mulago National Referral Hospital</title>
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+<div id="alert-banner" style="display:none">
+  <button class="alert-close">✕</button>
+</div>
+<div class="topbar"><div class="container">
+  <span>Ministry of Health, Republic of Uganda</span>
+  <a href="tel:0800100066" class="topbar-emergency">🚨 0800-100-066 FREE</a>
+</div></div>
+
+<nav class="navbar"><div class="container">
+  <div class="navbar-brand">
+    <div class="navbar-logo">M</div>
+    <div class="navbar-name"><strong style="font-size:1.1rem;display:block">Mulago National Referral Hospital</strong><small>Est. 1913 · Kampala, Uganda</small></div>
+  </div>
+  <ul class="nav-links" id="nav-links">
+    <li><a href="index_public.html">Home</a></li>
+    <li><a href="directorates_public.html">Directorates</a></li>
+    <li><a href="specialists_public.html">Specialists</a></li>
+    <li><a href="walkin_public.html" class="active">Walk-In Hours</a></li>
+    <li><a href="alerts_public.html">Health Alerts</a></li>
+    <li><a href="appointment_public.html" class="nav-book-btn">Book Appointment</a></li>
+  </ul>
+  <button class="hamburger" id="hamburger"><span></span><span></span><span></span></button>
+</div></nav>
+
+<div class="page-hero"><div class="container">
+  <div class="breadcrumb"><a href="index_public.html">Home</a> › Walk-In Hours</div>
+  <h1>Walk-In Clinic Hours</h1>
+  <p>No appointment needed for these services. Just arrive within the operating hours below. Status updates automatically based on the current time.</p>
+</div></div>
+
+<section class="section-pad"><div class="container">
+  <div style="background:var(--amber-100);border:1px solid var(--amber-400);border-radius:var(--radius-md);padding:16px 22px;margin-bottom:36px;display:flex;gap:12px;align-items:flex-start">
+    <span style="font-size:1.4rem">⏰</span>
+    <div>
+      <strong>Live Status:</strong> The "Open/Closed" status below is calculated automatically from Uganda time (EAT, UTC+3).
+      Status refreshes every minute. For emergencies, A&E is always open — 24 hours, 7 days a week.
+    </div>
+  </div>
+
+  <div class="section-header">
+    <p class="eyebrow">No Booking Required</p>
+    <h2>Service Operating Hours</h2>
+    <p>Walk-in patients are served on a first-come, first-served basis after booked appointments at each clinic.</p>
+  </div>
+
+  <div class="walkin-grid">
+    <div class="walkin-card">
+      <div style="font-size:1.5rem;margin-bottom:8px">🏥</div>
+      <div class="dept">Outpatient Department (OPD)</div>
+      <div class="hours">7:00 AM — 7:00 PM</div>
+      <div class="days">Mon – Sat (including Public Holidays)</div>
+      <div id="wk-opd" class="walkin-status">Checking…</div>
+      <div style="font-size:.78rem;color:var(--neutral-500);margin-top:8px">📍 Main OPD Block, Ground Floor</div>
+    </div>
+    <div class="walkin-card">
+      <div style="font-size:1.5rem;margin-bottom:8px">🚑</div>
+      <div class="dept">Accident &amp; Emergency</div>
+      <div class="hours">24 Hours</div>
+      <div class="days">Every Day, Always Open</div>
+      <div id="wk-emerg" class="walkin-status">Checking…</div>
+      <div style="font-size:.78rem;color:var(--neutral-500);margin-top:8px">📍 A&E Block, East Wing<br>📞 Emergency: 0800-100-066</div>
+    </div>
+    <div class="walkin-card">
+      <div style="font-size:1.5rem;margin-bottom:8px">🧪</div>
+      <div class="dept">Clinical Laboratory</div>
+      <div class="hours">7:00 AM — 5:00 PM</div>
+      <div class="days">Monday – Friday</div>
+      <div id="wk-lab" class="walkin-status">Checking…</div>
+      <div style="font-size:.78rem;color:var(--neutral-500);margin-top:8px">📍 Pathology Building, Lower Ground</div>
+    </div>
+    <div class="walkin-card">
+      <div style="font-size:1.5rem;margin-bottom:8px">💊</div>
+      <div class="dept">Pharmacy</div>
+      <div class="hours">8:00 AM — 8:00 PM</div>
+      <div class="days">Monday – Saturday</div>
+      <div id="wk-pharm" class="walkin-status">Checking…</div>
+      <div style="font-size:.78rem;color:var(--neutral-500);margin-top:8px">📍 Main Block, Ground Floor</div>
+    </div>
+    <div class="walkin-card">
+      <div style="font-size:1.5rem;margin-bottom:8px">🩻</div>
+      <div class="dept">Radiology / Imaging</div>
+      <div class="hours">8:00 AM — 5:00 PM</div>
+      <div class="days">Monday – Friday</div>
+      <div id="wk-radio" class="walkin-status">Checking…</div>
+      <div style="font-size:.78rem;color:var(--neutral-500);margin-top:8px">📍 Imaging Centre, Block G</div>
+    </div>
+    <div class="walkin-card">
+      <div style="font-size:1.5rem;margin-bottom:8px">🦷</div>
+      <div class="dept">Dental Clinic</div>
+      <div class="hours">8:00 AM — 4:00 PM</div>
+      <div class="days">Monday – Friday</div>
+      <div id="wk-dental" class="walkin-status">Checking…</div>
+      <div style="font-size:.78rem;color:var(--neutral-500);margin-top:8px">📍 Block H, Room 101</div>
+    </div>
+    <div class="walkin-card">
+      <div style="font-size:1.5rem;margin-bottom:8px">🤱</div>
+      <div class="dept">Antenatal Clinic</div>
+      <div class="hours">7:30 AM — 4:30 PM</div>
+      <div class="days">Tuesday &amp; Thursday</div>
+      <div class="walkin-status" style="color:var(--neutral-400)">Check day</div>
+      <div style="font-size:.78rem;color:var(--neutral-500);margin-top:8px">📍 Reproductive Health Block, Block F</div>
+    </div>
+    <div class="walkin-card">
+      <div style="font-size:1.5rem;margin-bottom:8px">💉</div>
+      <div class="dept">Immunisation / Vaccines</div>
+      <div class="hours">8:00 AM — 3:00 PM</div>
+      <div class="days">Wednesday &amp; Friday</div>
+      <div class="walkin-status" style="color:var(--neutral-400)">Check day</div>
+      <div style="font-size:.78rem;color:var(--neutral-500);margin-top:8px">📍 MCH Clinic, Paediatrics Block</div>
+    </div>
+  </div>
+
+  <!-- FEES TABLE -->
+  <div style="margin-top:56px">
+    <div class="section-header">
+      <p class="eyebrow">Transparency</p>
+      <h2>Service Fees &amp; Requirements</h2>
+      <p>To reduce unnecessary travel: know what to expect and what to bring before coming to Mulago.</p>
+    </div>
+    <div class="specialist-table-wrap">
+      <table class="specialist-table">
+        <thead><tr>
+          <th>Service</th><th>Cost (UGX)</th><th>What to Bring</th><th>Notes</th>
+        </tr></thead>
+        <tbody>
+          <tr><td><strong>OPD Consultation</strong></td><td style="font-family:var(--font-mono)">Free</td><td>National ID</td><td>Government health care is free at public facilities</td></tr>
+          <tr><td><strong>Blood Tests (Basic)</strong></td><td style="font-family:var(--font-mono)">Free</td><td>Doctor's request form</td><td>Results in 2–4 hours; collect from results window</td></tr>
+          <tr><td><strong>X-Ray (Plain Film)</strong></td><td style="font-family:var(--font-mono)">5,000</td><td>Referral form, NIN</td><td>Subsidised; private imaging available nearby</td></tr>
+          <tr><td><strong>Ultrasound</strong></td><td style="font-family:var(--font-mono)">20,000</td><td>Referral form, NIN</td><td>Book 1 day in advance; morning slots only</td></tr>
+          <tr><td><strong>CT Scan</strong></td><td style="font-family:var(--font-mono)">150,000</td><td>Referral, NIN, deposit</td><td>Appointments required; may take 1–3 days</td></tr>
+          <tr><td><strong>Dental Extraction</strong></td><td style="font-family:var(--font-mono)">10,000</td><td>NIN</td><td>Walk-in; anaesthetic included</td></tr>
+          <tr><td><strong>Admission (Ward)</strong></td><td style="font-family:var(--font-mono)">Free</td><td>NIN, referral letter</td><td>Maternity, paediatric and adult wards available</td></tr>
+          <tr><td><strong>Medicines (NMES)</strong></td><td style="font-family:var(--font-mono)">Free</td><td>Prescription form</td><td>If stock is available at the public pharmacy</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p style="font-size:.8rem;color:var(--neutral-500);margin-top:12px;font-style:italic">
+      * Fees are approximate and subject to change. Always verify at the triage desk. Emergency services are never denied for inability to pay.
+    </p>
+  </div>
+</div></section>
+
+<footer><div class="container">
+  <div class="footer-bottom" style="border-top:1px solid rgba(255,255,255,.1);padding:16px 0">
+    <span>© 2025 Mulago National Referral Hospital · Educational Project</span>
+    <span>Emergency: <a href="tel:0800100066" style="color:rgba(255,255,255,.5)">0800-100-066</a></span>
+  </div>
+</div></footer>
+
+<button id="scrollTop">↑</button>
+<script src="js/main.js"></script>
+<script>
+// Load dynamic clinic hours and notices
+async function loadClinicContent(){
+  try{
+    // Load clinic hours
+    const hoursRes=await fetch('php/get_clinic_hours.php');
+    const hoursJson=await hoursRes.json();
+    if(hoursJson.success && hoursJson.data){
+      const grid=document.querySelector('.walkin-grid');
+      if(grid){
+        const dayNames=['sun','mon','tue','wed','thu','fri','sat'];
+        const todayDay=new Date().getDay();
+        
+        grid.innerHTML=hoursJson.data.map(dept=>{
+          const deptCode=dept.code;
+          let openDays='';
+          const daysArr=[];
+          if(dept.monday)daysArr.push('Mon');
+          if(dept.tuesday)daysArr.push('Tue');
+          if(dept.wednesday)daysArr.push('Wed');
+          if(dept.thursday)daysArr.push('Thu');
+          if(dept.friday)daysArr.push('Fri');
+          if(dept.saturday)daysArr.push('Sat');
+          if(dept.sunday)daysArr.push('Sun');
+          
+          if(daysArr.length===7)openDays='Every Day, Always Open';
+          else if(daysArr.length===5 && dept.monday && dept.tuesday && dept.wednesday && dept.thursday && dept.friday)
+            openDays='Monday – Friday';
+          else openDays=daysArr.join(', ');
+          
+          // Determine if open now using days and times
+          const isOpenNow = (() => {
+            const now=new Date(new Date().toLocaleString('en-US',{timeZone:'Africa/Nairobi'}));
+            const nowHour=now.getHours(),nowMin=now.getMinutes();
+            const nowTime=nowHour*60+nowMin;
+            const [openH,openM]=dept.open_time.split(':').map(Number);
+            const [closeH,closeM]=dept.close_time.split(':').map(Number);
+            const openTime=openH*60+openM;
+            const closeTime=closeH*60+closeM;
+            
+            const dayNames=['sunday','monday','tuesday','wednesday','thursday','friday','saturday'];
+            const dayColumn=dayNames[todayDay];
+            const isOpen=dept[dayColumn];
+            
+            return isOpen && nowTime>=openTime && nowTime<closeTime;
+          })();
+          
+          return `
+            <div class="walkin-card">
+              <div style="font-size:1.5rem;margin-bottom:8px">🏥</div>
+              <div class="dept">${dept.department}</div>
+              <div class="hours">${dept.open_time} — ${dept.close_time}</div>
+              <div class="days">${openDays}</div>
+              <div class="walkin-status" style="color:${isOpenNow?'#16a34a':'#dc2626'}">${isOpenNow?'✓ OPEN NOW':'⊘ CLOSED NOW'}</div>
+              ${dept.walk_in_fee?`<div style="font-size:.78rem;color:var(--neutral-500);margin-top:8px">💰 Fee: ${dept.walk_in_fee}</div>`:''}
+              ${dept.notes?`<div style="font-size:.78rem;color:var(--neutral-500);margin-top:4px">📝 ${dept.notes}</div>`:''}
+            </div>
+          `;
+        }).join('');
+      }
+    }
+  }catch(err){
+    console.error('Failed to load clinic content:',err);
+  }
+}
+
+// Load on page load
+loadClinicContent();
+// Refresh every 5 minutes
+setInterval(loadClinicContent,5*60*1000);
+</script>
+</body>
+</html>

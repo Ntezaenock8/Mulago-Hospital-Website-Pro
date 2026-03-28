@@ -1,0 +1,288 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Admin Dashboard — Mulago Hospital</title>
+  <link rel="stylesheet" href="../css/admin.css">
+</head>
+<body class="admin-dashboard">
+
+<!-- SIDEBAR -->
+<aside class="admin-sidebar" id="admin-sidebar">
+  <div class="sidebar-header">
+    <div class="sidebar-logo">
+      <div class="icon">🏥</div>
+      <div>
+        <strong>Mulago Hospital</strong>
+        <span>Admin Portal</span>
+      </div>
+    </div>
+  </div>
+  <nav class="sidebar-nav">
+    <div class="nav-section-label">Main</div>
+    <a href="dashboard.html" class="active"><span class="nav-icon">📊</span> Dashboard</a>
+    <a href="appointments.html"><span class="nav-icon">📋</span> Appointments</a>
+    <a href="specialists.html"><span class="nav-icon">👨‍⚕️</span> Manage Specialists</a>
+
+    <div class="nav-section-label">Content</div>
+    <a href="alerts.html"><span class="nav-icon">📢</span> Health Alerts</a>
+    <a href="walkin.html"><span class="nav-icon">🕐</span> Clinic Hours</a>
+
+    <div class="nav-section-label">System</div>
+    <a href="../index.html"><span class="nav-icon">🌐</span> View Public Site</a>
+    <a href="settings.html"><span class="nav-icon">⚙️</span> Settings</a>
+  </nav>
+  <div class="sidebar-footer">
+    <div class="sidebar-user">
+      <div class="user-avatar">👤</div>
+      <div class="user-info">
+        <strong>Admin User</strong>
+        <span>Hospital Administrator</span>
+      </div>
+    </div>
+    <button class="logout-btn" id="logout-btn">🚪 Sign Out</button>
+  </div>
+</aside>
+
+<!-- MAIN CONTENT -->
+<main class="admin-main">
+  <header class="admin-topbar">
+    <button class="mobile-menu-btn" id="mobile-menu-btn" style="display:none"><span></span><span></span><span></span></button>
+    <div class="page-title">
+      <h1>Dashboard Overview</h1>
+      <p>Real-time summary of appointments and hospital activity</p>
+    </div>
+    <div class="topbar-right">
+      <span class="topbar-time" id="admin-clock">—</span>
+    </div>
+  </header>
+
+  <div class="admin-content">
+    <!-- STATS -->
+    <div class="stats-grid">
+      <div class="stat-card teal">
+        <div class="stat-icon">📋</div>
+        <div class="stat-num" id="stat-total">—</div>
+        <div class="stat-lbl">Total Appointments</div>
+        <div class="stat-sub">All time submissions</div>
+      </div>
+      <div class="stat-card amber">
+        <div class="stat-icon">🕐</div>
+        <div class="stat-num" id="stat-today">—</div>
+        <div class="stat-lbl">Today's Appointments</div>
+        <div class="stat-sub">Submitted today</div>
+      </div>
+      <div class="stat-card red">
+        <div class="stat-icon">⏳</div>
+        <div class="stat-num" id="stat-pending">—</div>
+        <div class="stat-lbl">Awaiting Confirmation</div>
+        <div class="stat-sub">Needs admin action</div>
+      </div>
+      <div class="stat-card green">
+        <div class="stat-icon">✅</div>
+        <div class="stat-num" id="stat-confirmed">—</div>
+        <div class="stat-lbl">Confirmed</div>
+        <div class="stat-sub">Ready to attend</div>
+      </div>
+      <div class="stat-card purple">
+        <div class="stat-icon">❌</div>
+        <div class="stat-num" id="stat-cancelled">—</div>
+        <div class="stat-lbl">Cancelled</div>
+        <div class="stat-sub">Cancelled appointments</div>
+      </div>
+    </div>
+
+    <!-- APPOINTMENTS TABLE -->
+    <div class="table-card">
+      <div class="table-card-header">
+        <div>
+          <h3>Recent Appointments</h3>
+          <p id="appts-count">Loading…</p>
+        </div>
+        <div class="table-controls">
+          <input type="text" id="appts-search" placeholder="Search name / NIN / ref…">
+          <select id="appts-dept">
+            <option value="">All Departments</option>
+            <option value=\"cardiology\">Cardiology</option>
+            <option value=\"oncology\">Oncology</option>
+            <option value=\"paediatrics\">Paediatrics</option>
+            <option value=\"surgery\">Surgery</option>
+            <option value=\"neurology\">Neurology</option>
+            <option value=\"obgyn\">Obstetrics &amp; Gynaecology</option>
+            <option value=\"orthopaedics\">Orthopaedics</option>
+            <option value=\"ophthalmology\">Ophthalmology</option>
+            <option value=\"psychiatry\">Psychiatry</option>
+            <option value=\"dermatology\">Dermatology</option>
+            <option value=\"internal_medicine\">Internal Medicine</option>
+            <option value=\"radiology\">Radiology</option>
+          </select>
+          <select id="appts-status">
+            <option value="">All Statuses</option>
+            <option value="pending">Pending</option>
+            <option value="confirmed">Confirmed</option>
+            <option value="cancelled">Cancelled</option>
+            <option value="completed">Completed</option>
+          </select>
+          <button class="action-btn confirm" id="export-csv">📥 Export CSV</button>
+        </div>
+      </div>
+      <div style="overflow-x:auto">
+        <table class="admin-table">
+          <thead><tr>
+            <th>Ref</th>
+            <th>Patient</th>
+            <th>Department</th>
+            <th>Doctor</th>
+            <th>Date</th>
+            <th>Reason</th>
+            <th>Status</th>
+            <th>Actions</th>
+          </tr></thead>
+          <tbody id="appts-tbody">
+            <tr><td colspan="8" style="text-align:center;padding:40px;color:#9ca3af">Loading appointments…</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="table-pagination">
+        <span id="pagination-info">—</span>
+        <div class="pagination-btns" id="pagination-btns"></div>
+      </div>
+    </div>
+
+    <!-- QUICK STATS ROW -->
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:20px;margin-top:4px">
+      <div class="table-card" style="padding:22px">
+        <h3 style="font-size:1rem;margin-bottom:16px">📊 Appointments by Department</h3>
+        <div id="dept-breakdown" style="font-size:.85rem"></div>
+      </div>
+      <div class="table-card" style="padding:22px">
+        <h3 style="font-size:1rem;margin-bottom:16px">💡 Quick Actions</h3>
+        <div style="display:flex;flex-direction:column;gap:10px">
+          <a href="../appointment_public.html" target="_blank" class="action-btn confirm" style="text-align:center;padding:10px">🔗 Preview Booking Form</a>
+          <a href="../specialists_public.html" target="_blank" class="action-btn" style="text-align:center;padding:10px;border-color:#9ca3af;color:#4b5563">👨‍⚕️ View Specialist Directory</a>
+          <a href="appointments.html" class="action-btn confirm" style="text-align:center;padding:10px">📋 View All Appointments</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</main>
+
+<style>
+/* Inline pie-chart-like dept breakdown */
+.dept-bar { display:flex; align-items:center; gap:8px; margin-bottom:8px; }
+.dept-bar .name { width:150px; font-size:.8rem; color:var(--neutral-700); }
+.dept-bar .bar-wrap { flex:1; background:var(--neutral-100); border-radius:4px; height:10px; overflow:hidden; }
+.dept-bar .bar-fill { height:100%; background:var(--teal-500); border-radius:4px; transition:width .5s ease; }
+.dept-bar .count { font-family:var(--font-mono); font-size:.72rem; color:var(--neutral-500); width:24px; text-align:right; }
+</style>
+
+<script src="../js/admin.js"></script>
+<script>
+// ── AUTH CHECK ──────────────────────────────────────────────────────────────
+if (!sessionStorage.getItem('admin_logged_in')) {
+  location.href = 'index.html';
+}
+
+// ── CLOCK ───────────────────────────────────────────────────────────────────
+function updateClock() {
+  const now = new Date();
+  document.getElementById('admin-clock').textContent = now.toLocaleTimeString('en-US', {
+    hour:'2-digit', minute:'2-digit', second:'2-digit', hour12:true
+  });
+}
+updateClock();
+setInterval(updateClock, 1000);
+
+// ── LOGOUT ──────────────────────────────────────────────────────────────────
+document.getElementById('logout-btn').addEventListener('click', async () => {
+  try {
+    await fetch('../php/admin_logout.php', { method: 'POST' });
+  } catch (e) {}
+  sessionStorage.removeItem('admin_logged_in');
+  location.href = 'index.html';
+});
+
+// ── FETCH APPOINTMENTS ──────────────────────────────────────────────────────
+async function loadDashboard() {
+  try {
+    const response = await fetch('../php/get_appointments.php?page=1');
+    const data = await response.json();
+
+    if (!data.success) {
+      console.error('Failed to load dashboard:', data.error);
+      return;
+    }
+
+    const appts = data.data || [];
+    const stats = data.stats || {};
+
+    // Update stat cards
+    document.getElementById('stat-total').textContent = stats.total || 0;
+    document.getElementById('stat-today').textContent = stats.today || 0;
+    document.getElementById('stat-pending').textContent = stats.pending || 0;
+    document.getElementById('stat-confirmed').textContent = stats.confirmed || 0;
+    document.getElementById('stat-cancelled').textContent = stats.cancelled || 0;
+
+    // Build appointments table
+    const tbody = document.getElementById('appts-tbody');
+    const rows = appts.slice(0, 8).map(appt => `
+      <tr>
+        <td style="font-family:var(--font-mono);font-weight:700;color:var(--teal-700)">${appt.ref}</td>
+        <td><strong>${appt.first_name} ${appt.last_name}</strong></td>
+        <td>${appt.department}</td>
+        <td>${appt.preferred_doctor || 'Any'}</td>
+        <td style="font-size:.85rem">${formatDate(appt.preferred_date)}</td>
+        <td style="max-width:200px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;font-size:.85rem">${appt.reason}</td>
+        <td><span class="status-badge status-${appt.status}">${appt.status}</span></td>
+        <td>
+          <button class="action-btn view" onclick="location.href='appointments.html'">View</button>
+        </td>
+      </tr>
+    `).join('');
+
+    tbody.innerHTML = rows || '<tr><td colspan="8" style="text-align:center;padding:20px;color:#9ca3af">No recent appointments</td></tr>';
+
+    // Build department breakdown
+    const counts = {};
+    appts.forEach(a => counts[a.department] = (counts[a.department] || 0) + 1);
+    const sorted = Object.entries(counts).sort((a,b) => b[1]-a[1]);
+    const max = sorted[0]?.[1] || 1;
+    const html = sorted.slice(0, 8).map(([dept, n]) =>
+      `<div class="dept-bar">
+        <div class="name">${dept}</div>
+        <div class="bar-wrap"><div class="bar-fill" style="width:${(n/max)*100}%"></div></div>
+        <div class="count">${n}</div>
+      </div>`
+    ).join('');
+    document.getElementById('dept-breakdown').innerHTML = html || '<p style="color:#9ca3af;font-size:.82rem">No data yet.</p>';
+
+    // Update appointments count
+    document.getElementById('appts-count').textContent = data.total > 0 
+      ? `Showing latest 8 of ${data.total} appointments`
+      : 'No appointments yet';
+
+  } catch (err) {
+    console.error('Dashboard load error:', err.message);
+    document.getElementById('appts-tbody').innerHTML = `
+      <tr><td colspan="8" style="text-align:center;padding:20px;color:#dc2626">
+        Error loading data. Make sure PHP server is running: <code style="font-family:monospace">php -S localhost:8000</code>
+      </td></tr>
+    `;
+  }
+}
+
+// ── HELPERS ─────────────────────────────────────────────────────────────────
+function formatDate(dateStr) {
+  if (!dateStr) return 'N/A';
+  const date = new Date(dateStr);
+  return date.toLocaleDateString('en-US', { year:'numeric', month:'short', day:'numeric' });
+}
+
+// ── INIT ────────────────────────────────────────────────────────────────────
+console.log('Dashboard loading. Fetching data from PHP backend...');
+loadDashboard();
+setInterval(loadDashboard, 10000); // Refresh stats every 10 seconds
+</script>
+</body>
+</html>

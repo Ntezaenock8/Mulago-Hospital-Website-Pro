@@ -1,0 +1,334 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Settings — Mulago Hospital Admin</title>
+  <link rel="stylesheet" href="../css/admin.css">
+</head>
+<body class="admin-dashboard">
+
+<!-- SIDEBAR -->
+<aside class="admin-sidebar" id="admin-sidebar">
+  <div class="sidebar-header">
+    <div class="sidebar-logo">
+      <div class="icon">🏥</div>
+      <div><strong>Mulago Hospital</strong><span>Admin Portal</span></div>
+    </div>
+  </div>
+  <nav class="sidebar-nav">
+    <div class="nav-section-label">Main</div>
+    <a href="dashboard.html"><span class="nav-icon">📊</span> Dashboard</a>
+    <a href="appointments.html"><span class="nav-icon">📋</span> Appointments</a>
+    <a href="specialists.html"><span class="nav-icon">👨‍⚕️</span> Manage Specialists</a>
+    <div class="nav-section-label">Content</div>
+    <a href="alerts.html"><span class="nav-icon">📢</span> Health Alerts</a>
+    <a href="walkin.html"><span class="nav-icon">🕐</span> Clinic Hours</a>
+    <div class="nav-section-label">System</div>
+    <a href="../index.html"><span class="nav-icon">🌐</span> View Public Site</a>
+    <a href="settings.html" class="active"><span class="nav-icon">⚙️</span> Settings</a>
+  </nav>
+  <div class="sidebar-footer">
+    <div class="sidebar-user">
+      <div class="user-avatar">👤</div>
+      <div class="user-info"><strong>Admin User</strong><span>Hospital Administrator</span></div>
+    </div>
+    <button class="logout-btn" id="logout-btn">🚪 Sign Out</button>
+  </div>
+</aside>
+
+<!-- MAIN -->
+<main class="admin-main">
+  <header class="admin-topbar">
+    <button class="mobile-menu-btn" id="mobile-menu-btn" style="display:none"><span></span><span></span><span></span></button>
+    <div class="page-title">
+      <h1>Settings</h1>
+      <p>System configuration, credentials, and demo data controls</p>
+    </div>
+    <div class="topbar-right">
+      <span class="topbar-time" id="admin-clock">—</span>
+    </div>
+  </header>
+
+  <div class="admin-content">
+
+    <!-- SETTINGS GRID -->
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:20px">
+
+      <!-- HOSPITAL INFO -->
+      <div class="table-card" style="padding:22px">
+        <h3 style="font-size:.95rem;margin-bottom:16px">🏥 Hospital Profile</h3>
+        <div class="sf-group">
+          <label>Hospital Name</label>
+          <input type="text" id="s-hospital-name" value="Mulago National Referral Hospital">
+        </div>
+        <div class="sf-group">
+          <label>Tagline</label>
+          <input type="text" id="s-tagline" value="Uganda's Centre of Healing Excellence">
+        </div>
+        <div class="sf-group">
+          <label>Physical Address</label>
+          <input type="text" id="s-address" value="Mulago Hill, Kampala, Uganda">
+        </div>
+        <div class="sf-group">
+          <label>Main Switchboard</label>
+          <input type="tel" id="s-phone" value="+256 414 530 200">
+        </div>
+        <div class="sf-group">
+          <label>Toll-Free Helpline</label>
+          <input type="tel" id="s-tollfree" value="0800 100 066">
+        </div>
+        <div class="sf-group">
+          <label>Emergency Line</label>
+          <input type="tel" id="s-emergency" value="0800 100 066">
+        </div>
+        <div class="sf-group">
+          <label>Official Email</label>
+          <input type="email" id="s-email" value="info@mulago.go.ug">
+        </div>
+        <button id="save-hospital" class="action-btn confirm" style="margin-top:10px;padding:9px 18px">💾 Save Profile</button>
+      </div>
+
+      <!-- ADMIN CREDENTIALS -->
+      <div style="display:flex;flex-direction:column;gap:20px">
+        <div class="table-card" style="padding:22px">
+          <h3 style="font-size:.95rem;margin-bottom:6px">🔑 Change Admin Password</h3>
+          <p style="font-size:.78rem;color:#9ca3af;margin-bottom:14px">Demo mode — credentials stored in sessionStorage only</p>
+          <div class="sf-group">
+            <label>Current Password</label>
+            <input type="password" id="s-current-pw" placeholder="Enter current password">
+          </div>
+          <div class="sf-group">
+            <label>New Password</label>
+            <input type="password" id="s-new-pw" placeholder="Min. 8 characters">
+          </div>
+          <div class="sf-group">
+            <label>Confirm New Password</label>
+            <input type="password" id="s-confirm-pw" placeholder="Re-enter new password">
+          </div>
+          <button id="change-pw-btn" class="action-btn confirm" style="margin-top:10px;padding:9px 18px">🔑 Update Password</button>
+        </div>
+
+        <!-- SYSTEM INFO -->
+        <div class="table-card" style="padding:22px">
+          <h3 style="font-size:.95rem;margin-bottom:12px">ℹ️ System Information</h3>
+          <div style="display:flex;flex-direction:column;gap:8px;font-size:.83rem">
+            <div class="info-row"><span class="info-key">Version</span><span class="info-val">v1.0.0 — Demo Build</span></div>
+            <div class="info-row"><span class="info-key">Stack</span><span class="info-val">HTML · CSS · JS · PHP · SQLite</span></div>
+            <div class="info-row"><span class="info-key">Admin Login</span><span class="info-val" id="info-login">admin / mulago2024</span></div>
+            <div class="info-row"><span class="info-key">Data Mode</span><span class="info-val">localStorage (demo)</span></div>
+            <div class="info-row"><span class="info-key">Timezone</span><span class="info-val">Africa/Nairobi (EAT, UTC+3)</span></div>
+            <div class="info-row"><span class="info-key">Server Time</span><span class="info-val" id="info-time">—</span></div>
+            <div class="info-row"><span class="info-key">Total Appointments</span><span class="info-val" id="info-appts">—</span></div>
+            <div class="info-row"><span class="info-key">Total Specialists</span><span class="info-val" id="info-specs">—</span></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- BOOKING FORM SETTINGS -->
+      <div class="table-card" style="padding:22px">
+        <h3 style="font-size:.95rem;margin-bottom:6px">📋 Booking Form Settings</h3>
+        <p style="font-size:.78rem;color:#9ca3af;margin-bottom:14px">Control which fields appear on the public appointment form</p>
+        <div style="display:flex;flex-direction:column;gap:8px">
+          <label class="toggle-label"><input type="checkbox" id="f-nin" checked> Require NIN (National ID)</label>
+          <label class="toggle-label"><input type="checkbox" id="f-phone" checked> Require Phone Number</label>
+          <label class="toggle-label"><input type="checkbox" id="f-dob" checked> Date of Birth</label>
+          <label class="toggle-label"><input type="checkbox" id="f-gender" checked> Gender</label>
+          <label class="toggle-label"><input type="checkbox" id="f-doctor" checked> Doctor Preference</label>
+          <label class="toggle-label"><input type="checkbox" id="f-referral" checked> Referral Source</label>
+          <label class="toggle-label"><input type="checkbox" id="f-consent" checked> Consent Checkbox</label>
+          <label class="toggle-label"><input type="checkbox" id="f-booking-open" checked> 🟢 Accept New Bookings</label>
+        </div>
+        <div class="sf-group" style="margin-top:14px">
+          <label>Max advance booking (days)</label>
+          <input type="number" id="f-advance-days" value="30" min="1" max="365" style="width:100px">
+        </div>
+        <button id="save-booking" class="action-btn confirm" style="margin-top:12px;padding:9px 18px">💾 Save Settings</button>
+      </div>
+
+      <!-- DATA MANAGEMENT -->
+      <div class="table-card" style="padding:22px">
+        <h3 style="font-size:.95rem;margin-bottom:6px">🗄️ Data Management</h3>
+        <p style="font-size:.78rem;color:#9ca3af;margin-bottom:16px">Demo data controls — all data is stored in your browser's localStorage</p>
+
+        <div style="display:flex;flex-direction:column;gap:10px">
+          <div style="padding:12px;background:#f9fafb;border-radius:8px;border:1px solid #e5e7eb">
+            <div style="font-size:.82rem;font-weight:600;color:#374151;margin-bottom:4px">📥 Appointments Data</div>
+            <div style="font-size:.76rem;color:#9ca3af;margin-bottom:8px" id="appts-size">—</div>
+            <div style="display:flex;gap:8px;flex-wrap:wrap">
+              <button onclick="exportData('appointments')" class="action-btn" style="padding:5px 12px;font-size:.75rem">📤 Export JSON</button>
+              <button onclick="resetData('appointments')" class="action-btn cancel" style="padding:5px 12px;font-size:.75rem">🔄 Reset to Demo</button>
+            </div>
+          </div>
+
+          <div style="padding:12px;background:#f9fafb;border-radius:8px;border:1px solid #e5e7eb">
+            <div style="font-size:.82rem;font-weight:600;color:#374151;margin-bottom:4px">👨‍⚕️ Specialists Data</div>
+            <div style="font-size:.76rem;color:#9ca3af;margin-bottom:8px" id="specs-size">—</div>
+            <div style="display:flex;gap:8px;flex-wrap:wrap">
+              <button onclick="exportData('specialists')" class="action-btn" style="padding:5px 12px;font-size:.75rem">📤 Export JSON</button>
+              <button onclick="resetData('specialists')" class="action-btn cancel" style="padding:5px 12px;font-size:.75rem">🔄 Reset to Demo</button>
+            </div>
+          </div>
+
+          <div style="padding:12px;background:#f9fafb;border-radius:8px;border:1px solid #e5e7eb">
+            <div style="font-size:.82rem;font-weight:600;color:#374151;margin-bottom:4px">📢 Alerts &amp; Schedule Data</div>
+            <div style="font-size:.76rem;color:#9ca3af;margin-bottom:8px" id="other-size">—</div>
+            <div style="display:flex;gap:8px;flex-wrap:wrap">
+              <button onclick="resetData('all-content')" class="action-btn cancel" style="padding:5px 12px;font-size:.75rem">🔄 Reset All Content</button>
+            </div>
+          </div>
+
+          <button onclick="nukAll()" style="margin-top:4px;width:100%;padding:10px;background:#fff;border:2px dashed #fca5a5;color:#dc2626;border-radius:8px;font-size:.82rem;font-weight:600;cursor:pointer;transition:background .2s" onmouseover="this.style.background='#fee2e2'" onmouseout="this.style.background='#fff'">
+            ⚠️ Clear ALL Data (Factory Reset)
+          </button>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- ABOUT / CREDITS -->
+    <div class="table-card" style="padding:22px;margin-top:4px">
+      <h3 style="font-size:.95rem;margin-bottom:10px">📚 About This Project</h3>
+      <div style="font-size:.85rem;color:#4b5563;line-height:1.7;max-width:700px">
+        <p>This is an <strong>educational demo</strong> of a hospital management website, built to teach students how to work with web technologies — HTML, CSS, JavaScript, PHP, and SQLite.</p>
+        <p style="margin-top:8px">The site models <strong>Mulago National Referral Hospital</strong>, Uganda's largest public hospital. All patient data shown is fictional. No real PHI (Protected Health Information) is stored or transmitted.</p>
+        <p style="margin-top:8px"><strong>Key concepts demonstrated:</strong> dynamic HTML rendering · localStorage CRUD · form validation · responsive design · admin authentication · CSV export · live status computation from time.</p>
+        <div style="margin-top:12px;padding:10px 14px;background:#f0fdf4;border-left:3px solid #6ee7b7;border-radius:4px;font-size:.8rem;color:#065f46">
+          <strong>Demo credentials:</strong> Username: <code style="background:#fff;padding:1px 5px;border-radius:3px">admin</code> &nbsp;|&nbsp; Password: <code style="background:#fff;padding:1px 5px;border-radius:3px">mulago2024</code>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</main>
+
+<style>
+.sf-group { display:flex;flex-direction:column;gap:4px;margin-bottom:10px; }
+.sf-group label { font-size:.72rem;font-weight:600;color:#374151;text-transform:uppercase;letter-spacing:.04em; }
+.sf-group input { padding:8px 10px;border:1px solid #d1d5db;border-radius:6px;font-size:.85rem;font-family:inherit;transition:border-color .2s; }
+.sf-group input:focus { outline:none;border-color:#1a9090; }
+.info-row { display:flex;justify-content:space-between;padding:6px 0;border-bottom:1px solid #f3f4f6; }
+.info-key { color:#9ca3af;font-size:.78rem; }
+.info-val { font-weight:600;color:#1f2937;font-size:.8rem; }
+.toggle-label { display:flex;align-items:center;gap:8px;cursor:pointer;padding:6px 0;font-size:.85rem;color:#374151;border-bottom:1px solid #f9fafb; }
+.toggle-label input[type=checkbox] { width:15px;height:15px;cursor:pointer;accent-color:#0a2e2e; }
+</style>
+
+<script src="../js/admin.js"></script>
+<script>
+if(!sessionStorage.getItem('mulago_admin'))location.href='index.html';
+document.getElementById('logout-btn').addEventListener('click',()=>{sessionStorage.removeItem('mulago_admin');location.href='index.html';});
+function updateClock(){const n=new Date();document.getElementById('admin-clock').textContent=n.toLocaleTimeString('en-GB',{hour:'2-digit',minute:'2-digit',second:'2-digit',timeZone:'Africa/Nairobi'})+' EAT';}
+updateClock();setInterval(updateClock,1000);
+
+// ── LOAD SETTINGS ─────────────────────────────────────────────────────────────
+const cfg=JSON.parse(localStorage.getItem('mulago_config')||'{}');
+if(cfg.hospitalName)document.getElementById('s-hospital-name').value=cfg.hospitalName;
+if(cfg.tagline)document.getElementById('s-tagline').value=cfg.tagline;
+if(cfg.address)document.getElementById('s-address').value=cfg.address;
+if(cfg.phone)document.getElementById('s-phone').value=cfg.phone;
+if(cfg.tollfree)document.getElementById('s-tollfree').value=cfg.tollfree;
+if(cfg.emergency)document.getElementById('s-emergency').value=cfg.emergency;
+if(cfg.email)document.getElementById('s-email').value=cfg.email;
+
+// Booking settings
+const bCfg=JSON.parse(localStorage.getItem('mulago_booking_config')||'{}');
+const fields=['nin','phone','dob','gender','doctor','referral','consent','booking-open'];
+fields.forEach(f=>{if(bCfg[f]!==undefined)document.getElementById('f-'+f).checked=bCfg[f];});
+if(bCfg.advanceDays)document.getElementById('f-advance-days').value=bCfg.advanceDays;
+
+// ── SYSTEM INFO ───────────────────────────────────────────────────────────────
+function updateSystemInfo(){
+  const appts=JSON.parse(localStorage.getItem('mulago_appts')||'[]');
+  const specs=JSON.parse(localStorage.getItem('mulago_specs')||'[]');
+  document.getElementById('info-appts').textContent=appts.length+' records';
+  document.getElementById('info-specs').textContent=specs.length+' specialists';
+  document.getElementById('info-time').textContent=new Date().toLocaleString('en-GB',{timeZone:'Africa/Nairobi'});
+  // Sizes
+  const sAppts=JSON.stringify(appts).length;
+  const sSpecs=JSON.stringify(specs).length;
+  const sOther=(localStorage.getItem('mulago_alerts')||'').length+(localStorage.getItem('mulago_walkin')||'').length;
+  document.getElementById('appts-size').textContent=`${appts.length} records · ${(sAppts/1024).toFixed(1)} KB`;
+  document.getElementById('specs-size').textContent=`${specs.length} specialists · ${(sSpecs/1024).toFixed(1)} KB`;
+  document.getElementById('other-size').textContent=`${(sOther/1024).toFixed(1)} KB`;
+}
+updateSystemInfo();
+
+// ── SAVE HOSPITAL ─────────────────────────────────────────────────────────────
+document.getElementById('save-hospital').addEventListener('click',()=>{
+  const data={
+    hospitalName:document.getElementById('s-hospital-name').value,
+    tagline:document.getElementById('s-tagline').value,
+    address:document.getElementById('s-address').value,
+    phone:document.getElementById('s-phone').value,
+    tollfree:document.getElementById('s-tollfree').value,
+    emergency:document.getElementById('s-emergency').value,
+    email:document.getElementById('s-email').value,
+  };
+  localStorage.setItem('mulago_config',JSON.stringify(data));
+  showToast('Hospital profile saved','success');
+});
+
+// ── SAVE BOOKING CONFIG ───────────────────────────────────────────────────────
+document.getElementById('save-booking').addEventListener('click',()=>{
+  const data={};
+  fields.forEach(f=>data[f]=document.getElementById('f-'+f).checked);
+  data.advanceDays=document.getElementById('f-advance-days').value;
+  localStorage.setItem('mulago_booking_config',JSON.stringify(data));
+  showToast('Booking settings saved','success');
+});
+
+// ── CHANGE PASSWORD ───────────────────────────────────────────────────────────
+document.getElementById('change-pw-btn').addEventListener('click',()=>{
+  const cur=document.getElementById('s-current-pw').value;
+  const nw=document.getElementById('s-new-pw').value;
+  const conf=document.getElementById('s-confirm-pw').value;
+  const saved=localStorage.getItem('mulago_pw')||'mulago2024';
+  if(cur!==saved){showToast('Current password incorrect','error');return;}
+  if(nw.length<8){showToast('Password must be at least 8 characters','error');return;}
+  if(nw!==conf){showToast('Passwords do not match','error');return;}
+  localStorage.setItem('mulago_pw',nw);
+  document.getElementById('info-login').textContent='admin / '+nw;
+  document.getElementById('s-current-pw').value='';
+  document.getElementById('s-new-pw').value='';
+  document.getElementById('s-confirm-pw').value='';
+  showToast('Password updated','success');
+});
+
+// ── DATA MANAGEMENT ───────────────────────────────────────────────────────────
+function exportData(type){
+  let data,filename;
+  if(type==='appointments'){data=localStorage.getItem('mulago_appts')||'[]';filename='mulago-appointments.json';}
+  else{data=localStorage.getItem('mulago_specs')||'[]';filename='mulago-specialists.json';}
+  const link=document.createElement('a');
+  link.href='data:application/json;charset=utf-8,'+encodeURIComponent(data);
+  link.download=filename;link.click();
+  showToast('Exported','success');
+}
+
+function resetData(type){
+  if(!confirm('Reset '+type+' to demo data? This cannot be undone.'))return;
+  if(type==='appointments')localStorage.removeItem('mulago_appts');
+  else if(type==='specialists')localStorage.removeItem('mulago_specs');
+  else{localStorage.removeItem('mulago_alerts');localStorage.removeItem('mulago_walkin');localStorage.removeItem('mulago_notice');}
+  updateSystemInfo();
+  showToast(type+' reset to demo data','success');
+}
+
+function nukAll(){
+  if(!confirm('⚠️ This will clear ALL demo data including appointments, specialists, alerts, and settings. Continue?'))return;
+  ['mulago_appts','mulago_specs','mulago_alerts','mulago_walkin','mulago_notice','mulago_config','mulago_booking_config','mulago_closures'].forEach(k=>localStorage.removeItem(k));
+  updateSystemInfo();
+  showToast('All data cleared','success');
+}
+
+function showToast(msg,type='info'){
+  const t=document.createElement('div');
+  t.textContent=msg;
+  t.style.cssText=`position:fixed;bottom:24px;right:24px;z-index:9999;padding:10px 20px;border-radius:8px;font-size:.85rem;font-weight:600;color:#fff;background:${type==='success'?'#16a34a':type==='error'?'#dc2626':'#0a2e2e'};box-shadow:0 4px 12px rgba(0,0,0,.2);transition:opacity .3s`;
+  document.body.appendChild(t);
+  setTimeout(()=>{t.style.opacity='0';setTimeout(()=>t.remove(),300);},2500);
+}
+</script>
+</body>
+</html>

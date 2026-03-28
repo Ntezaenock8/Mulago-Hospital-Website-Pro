@@ -1,0 +1,450 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Manage Specialists — Mulago Hospital Admin</title>
+  <link rel="stylesheet" href="../css/admin.css">
+</head>
+<body class="admin-dashboard">
+
+<!-- SIDEBAR -->
+<aside class="admin-sidebar" id="admin-sidebar">
+  <div class="sidebar-header">
+    <div class="sidebar-logo">
+      <div class="icon">🏥</div>
+      <div><strong>Mulago Hospital</strong><span>Admin Portal</span></div>
+    </div>
+  </div>
+  <nav class="sidebar-nav">
+    <div class="nav-section-label">Main</div>
+    <a href="dashboard.html"><span class="nav-icon">📊</span> Dashboard</a>
+    <a href="appointments.html"><span class="nav-icon">📋</span> Appointments</a>
+    <a href="specialists.html" class="active"><span class="nav-icon">👨‍⚕️</span> Manage Specialists</a>
+    <div class="nav-section-label">Content</div>
+    <a href="alerts.html"><span class="nav-icon">📢</span> Health Alerts</a>
+    <a href="walkin.html"><span class="nav-icon">🕐</span> Clinic Hours</a>
+    <div class="nav-section-label">System</div>
+    <a href="../index_public.html"><span class="nav-icon">🌐</span> View Public Site</a>
+    <a href="settings.html"><span class="nav-icon">⚙️</span> Settings</a>
+  </nav>
+  <div class="sidebar-footer">
+    <div class="sidebar-user">
+      <div class="user-avatar">👤</div>
+      <div class="user-info"><strong>Admin User</strong><span>Hospital Administrator</span></div>
+    </div>
+    <button class="logout-btn" id="logout-btn">🚪 Sign Out</button>
+  </div>
+</aside>
+
+<!-- MAIN -->
+<main class="admin-main">
+  <header class="admin-topbar">
+    <button class="mobile-menu-btn" id="mobile-menu-btn" style="display:none"><span></span><span></span><span></span></button>
+    <div class="page-title">
+      <h1>Manage Specialists</h1>
+      <p>Add, edit, or deactivate consultant specialists in the directory</p>
+    </div>
+    <div class="topbar-right">
+      <span class="topbar-time" id="admin-clock">—</span>
+    </div>
+  </header>
+
+  <div class="admin-content">
+
+    <!-- ACTION BAR -->
+    <div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:12px;margin-bottom:4px">
+      <div style="display:flex;gap:10px;flex-wrap:wrap">
+        <input type="text" id="search-spec" placeholder="🔍  Search specialists…" style="padding:8px 12px;border:1px solid #d1d5db;border-radius:6px;font-size:.85rem;width:220px">
+        <select id="filter-dept" style="padding:8px 12px;border:1px solid #d1d5db;border-radius:6px;font-size:.85rem">
+          <option value="">All Departments</option>
+        </select>
+        <select id="filter-avail" style="padding:8px 12px;border:1px solid #d1d5db;border-radius:6px;font-size:.85rem">
+          <option value="">All Status</option>
+          <option value="available">Available</option>
+          <option value="on_leave">On Leave</option>
+        </select>
+      </div>
+      <button id="add-btn" class="action-btn confirm" style="padding:9px 18px;font-size:.85rem">＋ Add Specialist</button>
+    </div>
+
+    <!-- SPECIALISTS TABLE -->
+    <div class="table-card">
+      <div style="overflow-x:auto">
+        <table class="admin-table">
+          <thead>
+            <tr>
+              <th>Specialist</th>
+              <th>Department</th>
+              <th>Qualifications</th>
+              <th>Available Days</th>
+              <th>Room/Location</th>
+              <th>Status</th>
+              <th>Actions</th>
+            </tr>
+          </thead>
+          <tbody id="spec-tbody"></tbody>
+        </table>
+      </div>
+      <div class="table-pagination">
+        <span id="spec-count">—</span>
+        <div id="spec-pages"></div>
+      </div>
+    </div>
+
+    <!-- ADD / EDIT MODAL -->
+    <div id="spec-modal" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,.5);z-index:1000;align-items:center;justify-content:center">
+      <div style="background:#fff;border-radius:12px;max-width:600px;width:92%;max-height:85vh;overflow-y:auto;padding:30px;position:relative">
+        <button onclick="closeModal()" style="position:absolute;top:16px;right:16px;background:none;border:none;font-size:1.4rem;cursor:pointer;color:#9ca3af">✕</button>
+        <h2 id="modal-title" style="font-size:1.1rem;margin-bottom:20px;color:#0a2e2e">Add New Specialist</h2>
+
+        <form id="spec-form" style="display:grid;grid-template-columns:1fr 1fr;gap:14px">
+          <div class="form-group">
+            <label>Full Name *</label>
+            <input type="text" id="f-name" placeholder="Dr. Full Name">
+          </div>
+          <div class="form-group">
+            <label>Department *</label>
+            <select id="f-dept" required>
+              <option value="">Select Department</option>
+              <option value="Cardiology">Cardiology</option>
+              <option value="Surgery">Surgery</option>
+              <option value="Paediatrics">Paediatrics</option>
+              <option value="Oncology">Oncology</option>
+              <option value="Neurology">Neurology</option>
+              <option value="Orthopaedics">Orthopaedics</option>
+              <option value="Dermatology">Dermatology</option>
+              <option value="Obstetrics & Gynaecology">Obstetrics & Gynaecology</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label>Qualifications *</label>
+            <select id="f-qualifications" required>
+              <option value="">Select Qualifications</option>
+              <option value="MBChB, MD">MBChB, MD</option>
+              <option value="MBChB, MMed">MBChB, MMed</option>
+              <option value="MBChB, MMed, Fellowship">MBChB, MMed, Fellowship</option>
+              <option value="MBChB, MMed, PhD">MBChB, MMed, PhD</option>
+              <option value="MBChB, FCPS">MBChB, FCPS</option>
+              <option value="MBChB, FRCP">MBChB, FRCP</option>
+              <option value="MBChB, FCS">MBChB, FCS</option>
+              <option value="MBChB, Residency">MBChB, Residency</option>
+              <option value="MBChB, Advanced Training">MBChB, Advanced Training</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label>Room/Location</label>
+            <input type="text" id="f-room" placeholder="e.g. Block A - 201">
+          </div>
+          <div class="form-group" style="grid-column:1/-1">
+            <label>Available Days *</label>
+            <div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:6px">
+              <label class="day-check"><input type="checkbox" value="Mon"> Mon</label>
+              <label class="day-check"><input type="checkbox" value="Tue"> Tue</label>
+              <label class="day-check"><input type="checkbox" value="Wed"> Wed</label>
+              <label class="day-check"><input type="checkbox" value="Thu"> Thu</label>
+              <label class="day-check"><input type="checkbox" value="Fri"> Fri</label>
+              <label class="day-check"><input type="checkbox" value="Sat"> Sat</label>
+            </div>
+          </div>
+          <div class="form-group">
+            <label>Status *</label>
+            <select id="f-status" required>
+              <option value="available">Available</option>
+              <option value="on_leave">On Leave</option>
+            </select>
+          </div>
+        </form>
+
+        <div style="margin-top:20px;display:flex;gap:10px;justify-content:space-between">
+          <button id="delete-spec-btn" class="action-btn cancel" style="padding:9px 18px;display:none">🗑️ Delete</button>
+          <div style="display:flex;gap:10px">
+            <button onclick="closeModal()" class="action-btn" style="padding:9px 18px;color:#6b7280;border-color:#d1d5db">Cancel</button>
+            <button id="save-spec-btn" class="action-btn confirm" style="padding:9px 22px">Save Specialist</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</main>
+
+<style>
+.form-group { display:flex; flex-direction:column; gap:4px; }
+.form-group label { font-size:.78rem; font-weight:600; color:#374151; text-transform:uppercase; letter-spacing:.04em; }
+.form-group input, .form-group select, .form-group textarea {
+  padding:8px 10px; border:1px solid #d1d5db; border-radius:6px; font-size:.85rem; color:#1f2937;
+  font-family:inherit; transition:border-color .2s;
+}
+.form-group input:focus, .form-group select:focus, .form-group textarea:focus {
+  outline:none; border-color:#1a9090;
+}
+.day-check { display:flex; align-items:center; gap:4px; font-size:.82rem; font-weight:600;
+  color:#374151; background:#f9fafb; border:1px solid #d1d5db; border-radius:5px;
+  padding:5px 12px; cursor:pointer; transition:all .15s; }
+.day-check:has(input:checked) { background:#d1fae5; border-color:#6ee7b7; color:#065f46; }
+.day-check input { cursor:pointer; }
+</style>
+
+<script src="../js/admin.js"></script>
+<script>
+// Simple specialist management system
+const API_BASE = '../php';
+
+if (!sessionStorage.getItem('admin_logged_in')) {
+  location.href = 'index.html';
+}
+
+document.getElementById('logout-btn').addEventListener('click', () => {
+  sessionStorage.removeItem('admin_logged_in');
+  location.href = 'index.html';
+});
+
+// Update clock
+function updateClock() {
+  const n = new Date();
+  document.getElementById('admin-clock').textContent = 
+    n.toLocaleTimeString('en-GB', {hour: '2-digit', minute: '2-digit', second: '2-digit'}) + ' EAT';
+}
+updateClock();
+setInterval(updateClock, 1000);
+
+let allSpecs = [];
+let editingId = null;
+
+// ═══════════════════════════════════════════════════════════════════════════
+// LOAD SPECIALISTS FROM BACKEND
+// ═══════════════════════════════════════════════════════════════════════════
+async function loadSpecialists() {
+  try {
+    const res = await fetch(`${API_BASE}/get_specialists.php`);
+    if (!res.ok) throw new Error('Failed to fetch');
+    
+    allSpecs = await res.json();
+    renderTable();
+    populateFilters();
+  } catch (err) {
+    console.error('Load error:', err);
+    toast('Error loading specialists', 'error');
+  }
+}
+
+// ═══════════════════════════════════════════════════════════════════════════
+// RENDER TABLE
+// ═══════════════════════════════════════════════════════════════════════════
+function renderTable() {
+  const filtered = getFilteredSpecs();
+  const tbody = document.getElementById('spec-tbody');
+  
+  if (filtered.length === 0) {
+    tbody.innerHTML = '<tr><td colspan="7" style="text-align:center;padding:40px;color:#9ca3af">No specialists found</td></tr>';
+    return;
+  }
+  
+  tbody.innerHTML = filtered.map(s => `
+    <tr>
+      <td>
+        <strong style="font-size:.9rem">${s.name}</strong>
+      </td>
+      <td style="font-size:.9rem">${s.dept}</td>
+      <td style="font-size:.85rem;color:#6b7280">${s.qualifications || '—'}</td>
+      <td style="font-size:.85rem"><code>${(s.days || []).join(', ')}</code></td>
+      <td style="font-size:.85rem;color:#6b7280">${s.room || '—'}</td>
+      <td>
+        <span style="display:inline-flex;align-items:center;gap:6px;padding:4px 12px;border-radius:99px;font-size:.75rem;font-weight:600;${s.status === 'available' ? 'background:#d1fae5;color:#065f46' : 'background:#fef08a;color:#854d0e'}">
+          <span style="width:6px;height:6px;border-radius:50%;background:currentColor"></span>
+          ${s.status === 'available' ? 'Available' : 'On Leave'}
+        </span>
+      </td>
+      <td style="display:flex;gap:6px">
+        <button style="padding:5px 8px;border:1px solid #d1d5db;background:#fff;border-radius:4px;cursor:pointer;font-size:.9rem;min-width:32px" onclick="editSpecialist(${s.id})" title="Edit">✎</button>
+        <button style="padding:5px 8px;border:1px solid #fca5a5;background:#fee2e2;color:#991b1b;border-radius:4px;cursor:pointer;font-size:.9rem;min-width:32px" onclick="deleteSpecialist(${s.id})" title="Delete">🗑</button>
+      </td>
+    </tr>
+  `).join('');
+  
+  document.getElementById('spec-count').textContent = `${filtered.length} specialist${filtered.length !== 1 ? 's' : ''}`;
+}
+
+function getFilteredSpecs() {
+  const q = document.getElementById('search-spec')?.value.toLowerCase() || '';
+  const dept = document.getElementById('filter-dept')?.value || '';
+  const status = document.getElementById('filter-avail')?.value || '';
+  
+  return allSpecs.filter(s => {
+    const matchQ = !q || s.name.toLowerCase().includes(q) || s.dept.toLowerCase().includes(q);
+    const matchD = !dept || s.dept === dept;
+    const matchS = !status || s.status === status;
+    return matchQ && matchD && matchS;
+  });
+}
+
+function populateFilters() {
+  const depts = [...new Set(allSpecs.map(s => s.dept))].sort();
+  const sel = document.getElementById('filter-dept');
+  while (sel.options.length > 1) sel.remove(1);
+  depts.forEach(d => {
+    const opt = document.createElement('option');
+    opt.value = opt.textContent = d;
+    sel.appendChild(opt);
+  });
+}
+
+// ═══════════════════════════════════════════════════════════════════════════
+// MODAL FUNCTIONS
+// ═══════════════════════════════════════════════════════════════════════════
+function openAddForm() {
+  editingId = null;
+  document.getElementById('modal-title').textContent = 'Add New Specialist';
+  document.getElementById('spec-form').reset();
+  document.getElementById('delete-spec-btn').style.display = 'none';
+  document.getElementById('save-spec-btn').textContent = 'Save Specialist';
+  document.getElementById('spec-modal').style.display = 'flex';
+}
+
+function editSpecialist(id) {
+  const spec = allSpecs.find(s => s.id === id);
+  if (!spec) return;
+  
+  editingId = id;
+  document.getElementById('modal-title').textContent = 'Edit Specialist';
+  document.getElementById('f-name').value = spec.name;
+  document.getElementById('f-dept').value = spec.dept;
+  document.getElementById('f-qualifications').value = spec.qualifications;
+  document.getElementById('f-room').value = spec.room || '';
+  document.getElementById('f-status').value = spec.status;
+  
+  document.querySelectorAll('.day-check input').forEach(cb => {
+    cb.checked = (spec.days || []).includes(cb.value);
+  });
+  
+  document.getElementById('delete-spec-btn').style.display = 'block';
+  document.getElementById('save-spec-btn').textContent = 'Update Specialist';
+  document.getElementById('spec-modal').style.display = 'flex';
+}
+
+function closeModal() {
+  document.getElementById('spec-modal').style.display = 'none';
+}
+
+async function saveSpecialist() {
+  const name = document.getElementById('f-name').value.trim();
+  const dept = document.getElementById('f-dept').value;
+  const qualifications = document.getElementById('f-qualifications').value;
+  const room = document.getElementById('f-room').value.trim();
+  const status = document.getElementById('f-status').value;
+  const days = [...document.querySelectorAll('.day-check input:checked')].map(cb => cb.value);
+  
+  if (!name || !dept || !qualifications || days.length === 0) {
+    toast('Please fill all fields and select at least one day', 'error');
+    return;
+  }
+  
+  const deptCode = {
+    'Cardiology': 'cardiology',
+    'Surgery': 'surgery',
+    'Paediatrics': 'paediatrics',
+    'Oncology': 'oncology',
+    'Neurology': 'neurology',
+    'Orthopaedics': 'orthopaedics',
+    'Dermatology': 'dermatology',
+    'Obstetrics & Gynaecology': 'obgyn'
+  }[dept] || dept.toLowerCase();
+  
+  const payload = {
+    id: editingId,
+    name,
+    dept,
+    dept_code: deptCode,
+    qualifications,
+    room,
+    days,
+    status
+  };
+  
+  try {
+    const res = await fetch(`${API_BASE}/save_specialist.php`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(payload)
+    });
+    const json = await res.json();
+    
+    if (json.success) {
+      closeModal();
+      loadSpecialists();
+      toast(json.message, 'success');
+    } else {
+      throw new Error(json.error);
+    }
+  } catch (err) {
+    console.error(err);
+    toast('Error: ' + err.message, 'error');
+  }
+}
+
+async function deleteSpecialist(id) {
+  const spec = allSpecs.find(s => s.id === id);
+  if (!spec || !confirm(`Delete Dr. ${spec.name}? This cannot be undone.`)) return;
+  
+  try {
+    const res = await fetch(`${API_BASE}/delete_specialist.php`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ id })
+    });
+    const json = await res.json();
+    
+    if (json.success) {
+      loadSpecialists();
+      toast('Specialist deleted', 'success');
+    } else {
+      throw new Error(json.error);
+    }
+  } catch (err) {
+    console.error(err);
+    toast('Error: ' + err.message, 'error');
+  }
+}
+
+// ═══════════════════════════════════════════════════════════════════════════
+// EVENT LISTENERS
+// ═══════════════════════════════════════════════════════════════════════════
+document.getElementById('add-btn').addEventListener('click', openAddForm);
+document.getElementById('save-spec-btn').addEventListener('click', saveSpecialist);
+document.getElementById('delete-spec-btn').addEventListener('click', () => {
+  if (editingId && confirm('Delete this specialist?')) {
+    closeModal();
+    deleteSpecialist(editingId);
+  }
+});
+
+['search-spec', 'filter-dept', 'filter-avail'].forEach(id => {
+  const el = document.getElementById(id);
+  if (el) {
+    el.addEventListener('input', renderTable);
+    el.addEventListener('change', renderTable);
+  }
+});
+
+// Close modal when clicking outside
+document.getElementById('spec-modal').addEventListener('click', e => {
+  if (e.target.id === 'spec-modal') closeModal();
+});
+
+function toast(msg, type = 'info') {
+  const t = document.createElement('div');
+  t.textContent = msg;
+  t.style.cssText = `position:fixed;bottom:24px;right:24px;z-index:9999;padding:12px 20px;border-radius:8px;font-size:.85rem;font-weight:600;color:#fff;background:${type === 'success' ? '#16a34a' : type === 'error' ? '#dc2626' : '#0a2e2e'};box-shadow:0 4px 12px rgba(0,0,0,.15);animation:slideIn .3s`;
+  document.body.appendChild(t);
+  setTimeout(() => t.remove(), 3000);
+}
+
+// ═══════════════════════════════════════════════════════════════════════════
+// INITIALIZE
+// ═══════════════════════════════════════════════════════════════════════════
+window.addEventListener('DOMContentLoaded', loadSpecialists);
+loadSpecialists();
+</script>
+</body>
+</html>

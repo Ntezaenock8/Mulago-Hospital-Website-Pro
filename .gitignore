@@ -1,0 +1,37 @@
+# Environment
+.venv/
+venv/
+env/
+ENV/
+*.pyc
+__pycache__/
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# OS
+.DS_Store
+Thumbs.db
+*.exe
+*.com
+
+# Testing
+uat_test.py
+uat_comprehensive.py
+test_*.py
+
+# Database backups
+*.db.bak
+*.db.backup
+
+# Logs
+*.log
+
+# Temporary files
+*.tmp
+*.temp
+~*

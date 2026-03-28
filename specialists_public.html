@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Specialist Directory — Mulago National Referral Hospital</title>
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+<div class="topbar">
+  <div class="container">
+    <span>Ministry of Health, Republic of Uganda</span>
+    <a href="tel:0800100066" class="topbar-emergency">🚨 0800-100-066 FREE</a>
+  </div>
+</div>
+
+<nav class="navbar">
+  <div class="container">
+    <div class="navbar-brand">
+      <div class="navbar-logo">M</div>
+      <div class="navbar-name">
+        <strong style="font-size:1.1rem;display:block">Mulago National Referral Hospital</strong>
+        <small>Est. 1913 · Kampala, Uganda</small>
+      </div>
+    </div>
+    <ul class="nav-links" id="nav-links">
+      <li><a href="index_public.html">Home</a></li>
+      <li><a href="directorates_public.html">Directorates</a></li>
+      <li><a href="specialists_public.html" class="active">Specialists</a></li>
+      <li><a href="walkin_public.html">Walk-In Hours</a></li>
+      <li><a href="alerts_public.html">Health Alerts</a></li>
+      <li><a href="appointment_public.html" class="nav-book-btn">Book Appointment</a></li>
+    </ul>
+    <button class="hamburger" id="hamburger"><span></span><span></span><span></span></button>
+  </div>
+</nav>
+
+<!-- PAGE HERO -->
+<div class="page-hero">
+  <div class="container">
+    <div class="breadcrumb"><a href="index_public.html">Home</a> › Specialist Directory</div>
+    <h1>Specialist Directory</h1>
+    <p>Find your consultant, check availability, and book an appointment — all in one place.</p>
+  </div>
+</div>
+
+<!-- SPECIALIST TABLE -->
+<section class="section-pad">
+  <div class="container">
+    <div class="section-header">
+      <p class="eyebrow">Consultant Roster</p>
+      <h2>Our Medical Specialists</h2>
+      <p>Use the filters below to find a specialist by name, department, or availability. Click "Book" to request an appointment with that doctor.</p>
+    </div>
+
+    <div class="directory-controls">
+      <div class="search-box">
+        <span class="search-icon">🔍</span>
+        <input type="text" id="doc-search" placeholder="Search by name or department…">
+      </div>
+      <select class="filter-select" id="dept-filter">
+        <option value="">All Departments</option>
+      </select>
+      <select class="filter-select" id="avail-filter">
+        <option value="">All Availability</option>
+        <option value="available">Available</option>
+        <option value="on_leave">On Leave</option>
+      </select>
+      <span id="result-count" style="font-family:var(--font-mono);font-size:.78rem;color:var(--neutral-500);white-space:nowrap"></span>
+    </div>
+
+    <div class="specialist-table-wrap">
+      <table class="specialist-table">
+        <thead>
+          <tr>
+            <th>Specialist</th>
+            <th>Department</th>
+            <th>Qualifications</th>
+            <th>Available Days</th>
+            <th>Room / Location</th>
+            <th>Status</th>
+            <th>Action</th>
+          </tr>
+        </thead>
+        <tbody id="specialist-tbody">
+          <tr><td colspan="6" style="text-align:center;padding:32px;color:#9ca3af">Loading specialists…</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <!-- NOTICE -->
+    <div style="background:var(--amber-100);border:1px solid var(--amber-400);border-radius:var(--radius-md);padding:16px 20px;margin-top:24px;font-size:.85rem">
+      <strong>📋 Note:</strong> Specialist schedules are updated weekly. Days marked "On Leave" may return by next week — please check back or call the relevant directorate. Walk-in appointments are subject to availability and are served after booked appointments.
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="container">
+    <div class="footer-grid">
+      <div class="footer-brand">
+        <div class="navbar-logo" style="width:44px;height:44px;font-size:1.1rem">M</div>
+        <strong>Mulago National Referral Hospital</strong>
+        <p>Uganda's premier public health institution since 1913.</p>
+      </div>
+      <div class="footer-col"><h4>Quick Links</h4><ul>
+        <li><a href="index_public.html">Home</a></li>
+        <li><a href="appointment_public.html">Book Appointment</a></li>
+        <li><a href="walkin_public.html">Walk-In Hours</a></li>
+        <li><a href="alerts_public.html">Health Alerts</a></li>
+      </ul></div>
+      <div class="footer-col"><h4>Emergency</h4><ul>
+        <li><a href="tel:0800100066">0800-100-066 (Free)</a></li>
+        <li><a href="tel:0414541888">A&E: +256 414 541 888</a></li>
+      </ul></div>
+      <div class="footer-col"><h4>Admin</h4><ul>
+        <li><a href="admin/index.html">Admin Portal</a></li>
+      </ul></div>
+    </div>
+    <div class="footer-bottom">
+      <span>© 2025 Mulago National Referral Hospital · Educational Project</span>
+    </div>
+  </div>
+</footer>
+
+<button id="scrollTop" aria-label="Scroll to top">↑</button>
+<script src="js/main.js"></script>
+</body>
+</html>

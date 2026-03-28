@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Book an Appointment — Mulago National Referral Hospital</title>
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+<div class="topbar">
+  <div class="container">
+    <span>Ministry of Health, Republic of Uganda</span>
+    <a href="tel:0800100066" class="topbar-emergency">🚨 0800-100-066 FREE</a>
+  </div>
+</div>
+
+<nav class="navbar">
+  <div class="container">
+    <div class="navbar-brand">
+      <div class="navbar-logo">M</div>
+      <div class="navbar-name">
+        <strong style="font-size:1.1rem;display:block">Mulago National Referral Hospital</strong>
+        <small>Est. 1913 · Kampala, Uganda</small>
+      </div>
+    </div>
+    <ul class="nav-links" id="nav-links">
+      <li><a href="index_public.html">Home</a></li>
+      <li><a href="directorates_public.html">Directorates</a></li>
+      <li><a href="specialists_public.html">Specialists</a></li>
+      <li><a href="walkin_public.html">Walk-In Hours</a></li>
+      <li><a href="alerts_public.html">Health Alerts</a></li>
+      <li><a href="appointment_public.html" class="nav-book-btn active">Book Appointment</a></li>
+    </ul>
+    <button class="hamburger" id="hamburger"><span></span><span></span><span></span></button>
+  </div>
+</nav>
+
+<div class="page-hero">
+  <div class="container">
+    <div class="breadcrumb"><a href="index_public.html">Home</a> › Book Appointment</div>
+    <h1>Digital Appointment Booking</h1>
+    <p>Fill the form below. You'll receive a reference code immediately and SMS confirmation within 24 hours.</p>
+  </div>
+</div>
+
+<section class="section-pad">
+  <div class="container">
+    <div style="display:grid;grid-template-columns:1fr 520px;gap:60px;align-items:start" class="appt-grid">
+      <div class="appt-info">
+        <span class="badge badge--amber">No paper, No queue</span>
+        <h2 style="margin-top:12px">How Booking Works</h2>
+        <p>Our digital intake system replaces the traditional paper-based process. You do not need to physically travel to Mulago to register for an appointment.</p>
+        <ul class="appt-steps" style="margin-top:24px">
+          <li>
+            <div class="step-num">1</div>
+            <div class="step-text">
+              <strong>Fill This Form</strong>
+              <span>Enter your personal details, NIN, phone number, and reason for visit. All fields marked * are required.</span>
+            </div>
+          </li>
+          <li>
+            <div class="step-num">2</div>
+            <div class="step-text">
+              <strong>Receive Reference Code</strong>
+              <span>You get a unique reference code (e.g. MNR-A8F2K1) on-screen. Screenshot or write it down.</span>
+            </div>
+          </li>
+          <li>
+            <div class="step-num">3</div>
+            <div class="step-text">
+              <strong>Wait for SMS Confirmation</strong>
+              <span>Our admin team reviews your request and sends an SMS with your confirmed date, time, and consultant name within 24 hours.</span>
+            </div>
+          </li>
+          <li>
+            <div class="step-num">4</div>
+            <div class="step-text">
+              <strong>Attend Your Appointment</strong>
+              <span>Arrive 15 minutes early with your National ID Card and reference code. Report to the triage desk at the relevant block.</span>
+            </div>
+          </li>
+        </ul>
+
+        <div style="background:var(--teal-50);border:1px solid var(--teal-200);border-radius:var(--radius-md);padding:20px;margin-top:28px">
+          <h4 style="font-size:1rem;margin-bottom:10px;color:var(--teal-900)">📋 What to Bring on the Day</h4>
+          <ul style="list-style:none;font-size:.88rem;color:var(--neutral-600)">
+            <li style="margin-bottom:6px">✅ National ID Card (NIN)</li>
+            <li style="margin-bottom:6px">✅ Your booking reference code</li>
+            <li style="margin-bottom:6px">✅ Previous medical records (if any)</li>
+            <li style="margin-bottom:6px">✅ Referral letter (if referred from another facility)</li>
+            <li>✅ Next of kin's contact (for emergency procedures)</li>
+          </ul>
+        </div>
+
+        <div style="background:var(--red-100);border:1px solid rgba(220,38,38,.2);border-radius:var(--radius-md);padding:16px 20px;margin-top:16px;font-size:.85rem">
+          <strong style="color:var(--red-600)">🚨 For Emergencies:</strong> Do NOT use this form. Go directly to the Accident &amp; Emergency block or call <a href="tel:0800100066" style="color:var(--red-600);font-weight:700">0800-100-066</a> (free, 24/7).
+        </div>
+      </div>
+
+      <div class="appt-form-card" id="appt-form-wrap">
+        <h3>Appointment Request Form</h3>
+        <p class="subtitle">Free service · Confirmed within 24 hours by SMS</p>
+        <form id="appt-form" novalidate>
+          <div class="form-row">
+            <div class="form-group">
+              <label for="f-fname">First Name <span class="required">*</span></label>
+              <input type="text" id="f-fname" name="first_name" class="form-control" placeholder="e.g. Sarah" required>
+            </div>
+            <div class="form-group">
+              <label for="f-lname">Last Name <span class="required">*</span></label>
+              <input type="text" id="f-lname" name="last_name" class="form-control" placeholder="e.g. Nakato" required>
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="f-nin">National ID Number (NIN) <span class="required">*</span></label>
+            <input type="text" id="f-nin" name="nin" class="form-control" placeholder="CM90001234567A" required maxlength="14" style="font-family:var(--font-mono)">
+            <p class="form-hint">14-character alphanumeric code on your National ID Card.</p>
+          </div>
+          <div class="form-row">
+            <div class="form-group">
+              <label for="f-phone">Phone Number <span class="required">*</span></label>
+              <input type="tel" id="f-phone" name="phone" class="form-control" placeholder="07XXXXXXXX" required>
+            </div>
+            <div class="form-group">
+              <label for="f-gender">Gender</label>
+              <select id="f-gender" name="gender" class="form-control">
+                <option value="">— Select —</option>
+                <option value="M">Male</option>
+                <option value="F">Female</option>
+              </select>
+            </div>
+          </div>
+          <div class="form-row">
+            <div class="form-group">
+              <label for="f-dob">Date of Birth</label>
+              <input type="date" id="f-dob" name="dob" class="form-control">
+            </div>
+            <div class="form-group">
+              <label for="f-age">Age (if no DOB)</label>
+              <input type="number" id="f-age" name="age" class="form-control" placeholder="e.g. 35" min="0" max="120">
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="f-dept">Department / Specialty <span class="required">*</span></label>
+            <select id="f-dept" name="department" class="form-control" required>
+              <option value="">— Select Department —</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label for="f-doc">Preferred Doctor (Optional)</label>
+            <input type="text" id="f-doc" name="preferred_doctor" class="form-control" placeholder="e.g. Dr. Samuel Okello">
+            <p class=\"form-hint\">Leave blank if you have no preference. See <a href=\"specialists_public.html\">Specialist Directory</a>.</p>
+          </div>
+          <div class="form-group">
+            <label for="f-reason">Reason for Visit / Symptoms <span class="required">*</span></label>
+            <textarea id="f-reason" name="reason" class="form-control" rows="4" placeholder="Describe your symptoms or reason for visiting. Be as specific as possible to help our team assign the right consultant." required></textarea>
+          </div>
+          <div class="form-row">
+            <div class="form-group">
+              <label for="f-pref-date">Preferred Date</label>
+              <input type="date" id="f-pref-date" name="preferred_date" class="form-control">
+            </div>
+            <div class="form-group">
+              <label for="f-visit-type">Visit Type</label>
+              <select id="f-visit-type" name="visit_type" class="form-control">
+                <option value="new">New Patient</option>
+                <option value="review">Follow-Up</option>
+                <option value="emergency">Emergency</option>
+              </select>
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="f-referred">Referred From (Optional)</label>
+            <input type="text" id="f-referred" name="referred_from" class="form-control" placeholder="e.g. Entebbe Hospital, Dr. Kato James">
+          </div>
+          <div style="background:var(--neutral-50);border:1px solid var(--neutral-200);border-radius:var(--radius-sm);padding:12px 14px;margin-bottom:16px;font-size:.8rem;color:var(--neutral-600)">
+            <label style="display:flex;gap:10px;align-items:flex-start;cursor:pointer;font-size:.82rem;font-family:var(--font-body);text-transform:none;letter-spacing:0;color:var(--neutral-700);font-weight:400">
+              <input type="checkbox" name="consent" required style="width:auto;margin-top:3px;accent-color:var(--teal-600)">
+              I consent to Mulago National Referral Hospital storing this information for the purpose of managing my appointment. My data will not be shared with third parties.
+            </label>
+          </div>
+          <button type="submit" class="btn btn--primary form-submit">Submit Appointment Request →</button>
+        </form>
+        <div class="form-success" id="appt-success">
+          <div class="check">✓</div>
+          <h4>Request Submitted Successfully!</h4>
+          <p>Your appointment request has been received by Mulago Hospital. An SMS with your confirmed date and consultant will be sent to your phone within 24 hours.</p>
+          <p style="margin-top:12px;font-weight:600">Your Reference Code:</p>
+          <div class="ref-code" id="ref-number">MNR-XXXXXX</div>
+          <p style="margin-top:16px;font-size:.8rem;color:#9ca3af">Screenshot this code. Bring your NIN + this code on the day of your appointment.</p>
+          <a href="index_public.html" class="btn btn--outline" style="margin-top:20px">← Back to Home</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="container">
+    <div class="footer-bottom" style="border-top:1px solid rgba(255,255,255,.1);padding:16px 0">
+      <span>© 2025 Mulago National Referral Hospital · Educational Project</span>
+      <span>Emergency: <a href="tel:0800100066" style="color:rgba(255,255,255,.5)">0800-100-066</a></span>
+    </div>
+  </div>
+</footer>
+
+<button id="scrollTop">↑</button>
+<script src="js/main.js"></script>
+</body>
+</html>

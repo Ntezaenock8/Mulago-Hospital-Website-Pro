@@ -1,0 +1,556 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Appointments — Mulago Hospital Admin</title>
+  <link rel="stylesheet" href="../css/admin.css">
+</head>
+<body class="admin-dashboard">
+
+<!-- SIDEBAR -->
+<aside class="admin-sidebar" id="admin-sidebar">
+  <div class="sidebar-header">
+    <div class="sidebar-logo">
+      <div class="icon">🏥</div>
+      <div>
+        <strong>Mulago Hospital</strong>
+        <span>Admin Portal</span>
+      </div>
+    </div>
+  </div>
+  <nav class="sidebar-nav">
+    <div class="nav-section-label">Main</div>
+    <a href="dashboard.html"><span class="nav-icon">📊</span> Dashboard</a>
+    <a href="appointments.html" class="active"><span class="nav-icon">📋</span> Appointments</a>
+    <a href="specialists.html"><span class="nav-icon">👨‍⚕️</span> Manage Specialists</a>
+    <div class="nav-section-label">Content</div>
+    <a href="alerts.html"><span class="nav-icon">📢</span> Health Alerts</a>
+    <a href="walkin.html"><span class="nav-icon">🕐</span> Clinic Hours</a>
+    <div class="nav-section-label">System</div>
+    <a href="../index.html"><span class="nav-icon">🌐</span> View Public Site</a>
+    <a href="settings.html"><span class="nav-icon">⚙️</span> Settings</a>
+  </nav>
+  <div class="sidebar-footer">
+    <div class="sidebar-user">
+      <div class="user-avatar">👤</div>
+      <div class="user-info">
+        <strong>Admin User</strong>
+        <span>Hospital Administrator</span>
+      </div>
+    </div>
+    <button class="logout-btn" id="logout-btn">🚪 Sign Out</button>
+  </div>
+</aside>
+
+<!-- MAIN CONTENT -->
+<main class="admin-main">
+  <header class="admin-topbar">
+    <button class="mobile-menu-btn" id="mobile-menu-btn" style="display:none"><span></span><span></span><span></span></button>
+    <div class="page-title">
+      <h1>Appointments</h1>
+      <p>Manage and review all patient appointment submissions</p>
+    </div>
+    <div class="topbar-right">
+      <span class="topbar-time" id="admin-clock">—</span>
+    </div>
+  </header>
+
+  <div class="admin-content">
+
+    <!-- ERROR ALERT (Hidden by default) -->
+    <div id="error-alert" style="display:none;background:#fee2e2;border:2px solid #fca5a5;border-radius:8px;padding:16px;margin-bottom:20px;color:#991b1b">
+      <strong>⚠️ Error:</strong> <span id="error-msg"></span>
+    </div>
+
+    <!-- FILTERS BAR -->
+    <div class="table-card" style="padding:18px 22px">
+      <div style="display:flex;flex-wrap:wrap;gap:10px;align-items:center">
+        <input type="text" id="search-input" placeholder="🔍  Search name, NIN, reference…" style="flex:1;min-width:200px;padding:8px 12px;border:1px solid #d1d5db;border-radius:6px;font-size:.85rem">
+        <input type="date" id="filter-date" style="padding:8px 12px;border:1px solid #d1d5db;border-radius:6px;font-size:.85rem" title="Filter by preferred appointment date">
+        <select id="filter-dept" style="padding:8px 12px;border:1px solid #d1d5db;border-radius:6px;font-size:.85rem">
+          <option value="">All Departments</option>
+          <option value="cardiology">Cardiology</option>
+          <option value="oncology">Oncology</option>
+          <option value="paediatrics">Paediatrics</option>
+          <option value="surgery">Surgery</option>
+          <option value="neurology">Neurology</option>
+          <option value="obgyn">Obstetrics & Gynaecology</option>
+          <option value="orthopaedics">Orthopaedics</option>
+          <option value="ophthalmology">Ophthalmology</option>
+          <option value="psychiatry">Psychiatry</option>
+          <option value="dermatology">Dermatology</option>
+          <option value="internal_medicine">Internal Medicine</option>
+          <option value="radiology">Radiology</option>
+        </select>
+        <select id="filter-status" style="padding:8px 12px;border:1px solid #d1d5db;border-radius:6px;font-size:.85rem">
+          <option value="">All Statuses</option>
+          <option value="pending">Pending</option>
+          <option value="confirmed">Confirmed</option>
+          <option value="cancelled">Cancelled</option>
+          <option value="completed">Completed</option>
+        </select>
+        <button id="export-csv" class="action-btn confirm">📥 Export CSV</button>
+      </div>
+    </div>
+
+    <!-- TABLE -->
+    <div class="table-card">
+      <div class="table-card-header">
+        <div>
+          <h3>Appointments</h3>
+          <p id="appts-count" style="font-size:.85rem;color:#6b7280">Loading…</p>
+        </div>
+      </div>
+      <div style="overflow-x:auto">
+        <table class="admin-table">
+          <thead><tr>
+            <th>Ref</th>
+            <th>Patient Name</th>
+            <th>NIN</th>
+            <th>Phone</th>
+            <th>Department</th>
+            <th>Doctor</th>
+            <th>Date</th>
+            <th>Status</th>
+            <th>Actions</th>
+          </tr></thead>
+          <tbody id="appts-tbody">
+            <tr><td colspan="9" style="text-align:center;padding:40px;color:#9ca3af">Loading appointments…</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="table-pagination">
+        <span id="pagination-info" style="font-size:.85rem">—</span>
+        <div class="pagination-btns" id="pagination-btns"></div>
+      </div>
+    </div>
+
+  </div>
+</main>
+
+<style>
+.admin-table th[data-sort] { user-select:none; cursor:pointer; }
+.admin-table th[data-sort]:hover { background:#f0fdf4; }
+.detail-field { background:#f9fafb; border-radius:6px; padding:10px 12px; }
+.detail-label { font-size:.7rem; text-transform:uppercase; letter-spacing:.05em; color:#9ca3af; margin-bottom:2px; }
+.detail-value { font-weight:600; color:#1f2937; }
+.status-badge {
+  display:inline-block;
+  padding:4px 10px;
+  border-radius:4px;
+  font-size:.75rem;
+  font-weight:600;
+  text-transform:uppercase;
+  letter-spacing:0.05em;
+}
+.status-pending { background:#fef3c7; color:#92400e; }
+.status-confirmed { background:#dcfce7; color:#166534; }
+.status-cancelled { background:#fee2e2; color:#991b1b; }
+.status-completed { background:#e0f2fe; color:#0c4a6e; }
+.action-btn {
+  padding:6px 12px;
+  border:1px solid;
+  border-radius:4px;
+  font-size:.75rem;
+  cursor:pointer;
+  transition:all 0.2s;
+  font-weight:600;
+}
+.action-btn.confirm { background:#dcfce7; border-color:#86efac; color:#166534; }
+.action-btn.confirm:hover { background:#bbf7d0; }
+.action-btn.cancel { background:#fee2e2; border-color:#fca5a5; color:#991b1b; }
+.action-btn.cancel:hover { background:#fecaca; }
+.action-btn.view { background:#e0f2fe; border-color:#7dd3fc; color:#0c4a6e; }
+.action-btn.view:hover { background:#bae6fd; }
+</style>
+
+<!-- Removed admin.js (it was causing race condition with demo data) -->
+<script>
+// ── AUTH CHECK ──────────────────────────────────────────────────────────────
+if (!sessionStorage.getItem('admin_logged_in')) {
+  location.href = 'index.html';
+}
+
+// ── CLEAR OLD CACHED DATA ────────────────────────────────────────────────────
+// Remove any old localStorage data from previous demo/non-normalized schema
+localStorage.removeItem('mulago_appts');
+sessionStorage.removeItem('mulago_appointments');
+sessionStorage.removeItem('mulago_stats');
+
+// ── CONFIG ──────────────────────────────────────────────────────────────────
+const API_BASE = '../php';
+const PAGE_SIZE = 10;
+
+// ── STATE ───────────────────────────────────────────────────────────────────
+let currentPage = 1;
+let allAppts = [];
+let totalAppts = 0;
+let totalPages = 1;
+
+// ── ERROR HANDLER ───────────────────────────────────────────────────────────
+function showError(msg) {
+  const alert = document.getElementById('error-alert');
+  const msgEl = document.getElementById('error-msg');
+  msgEl.textContent = msg;
+  alert.style.display = 'block';
+  setTimeout(() => { alert.style.display = 'none'; }, 8000);
+}
+
+function hideError() {
+  document.getElementById('error-alert').style.display = 'none';
+}
+
+// ── CLOCK ───────────────────────────────────────────────────────────────────
+function updateClock() {
+  const now = new Date();
+  document.getElementById('admin-clock').textContent = now.toLocaleTimeString('en-US', {
+    hour:'2-digit', minute:'2-digit', second:'2-digit', hour12:true
+  });
+}
+updateClock();
+setInterval(updateClock, 1000);
+
+// ── FETCH APPOINTMENTS ──────────────────────────────────────────────────────
+async function fetchAppointments() {
+  const search = document.getElementById('search-input').value;
+  const dept = document.getElementById('filter-dept').value;
+  const status = document.getElementById('filter-status').value;
+  const date = document.getElementById('filter-date')?.value;
+
+  const params = new URLSearchParams();
+  if (search) params.append('search', search);
+  if (dept) params.append('dept', dept);
+  if (status) params.append('status', status);
+  if (date) params.append('date', date);
+  params.append('page', currentPage);
+
+  try {
+    const response = await fetch(`${API_BASE}/get_appointments.php?${params}`);
+    const data = await response.json();
+
+    console.log('API Response:', data); // DEBUG: Check what API returns
+    
+    if (!data.success) {
+      showError(data.error || 'Failed to fetch appointments. Make sure PHP server is running: php -S localhost:8000');
+      document.getElementById('appts-tbody').innerHTML = `
+        <tr><td colspan="9" style="text-align:center;padding:40px;color:#dc2626">
+          <strong>PHP Server Not Running</strong><br><br>
+          Run this command from the /mulago directory:<br><br>
+          <code style="background:#f3f4f6;padding:8px 12px;border-radius:4px;display:inline-block;font-family:monospace;font-size:0.9rem">php -S localhost:8000</code>
+        </td></tr>
+      `;
+      return;
+    }
+
+    hideError();
+    allAppts = data.data || [];
+    console.log('Appointments loaded:', allAppts.length); // DEBUG: Check how many records loaded
+    
+    totalAppts = data.total;
+    totalPages = Math.ceil(totalAppts / PAGE_SIZE);
+
+    renderTable();
+    renderPagination();
+    updateCount();
+
+  } catch (err) {
+    showError('Network error: ' + err.message + '. Make sure PHP server is running: php -S localhost:8000');
+    document.getElementById('appts-tbody').innerHTML = `
+      <tr><td colspan="9" style="text-align:center;padding:40px;color:#dc2626">
+        <strong>Connection Failed</strong><br><br>
+        Run this command from the /mulago directory:<br><br>
+        <code style="background:#f3f4f6;padding:8px 12px;border-radius:4px;display:inline-block;font-family:monospace;font-size:0.9rem">php -S localhost:8000</code>
+      </td></tr>
+    `;
+  }
+}
+
+// ── UPDATE COUNT ────────────────────────────────────────────────────────────
+function updateCount() {
+  const start = (currentPage - 1) * PAGE_SIZE + 1;
+  const end = Math.min(currentPage * PAGE_SIZE, totalAppts);
+  document.getElementById('appts-count').textContent = totalAppts === 0 
+    ? 'No appointments' 
+    : `Showing ${start}–${end} of ${totalAppts}`;
+}
+
+// ── RENDER TABLE ────────────────────────────────────────────────────────────
+function renderTable() {
+  const tbody = document.getElementById('appts-tbody');
+  
+  // Ensure allAppts is always an array (never from demo fallback)
+  if (!Array.isArray(allAppts) || allAppts.length === 0) {
+    tbody.innerHTML = `<tr><td colspan="9" style="text-align:center;padding:40px;color:#9ca3af">No appointments found</td></tr>`;
+    return;
+  }
+
+  tbody.innerHTML = allAppts.map(appt => `
+    <tr>
+      <td style="font-family:var(--font-mono);font-weight:700;color:var(--teal-700)">${appt.ref}</td>
+      <td><strong>${appt.first_name} ${appt.last_name}</strong></td>
+      <td style="font-family:var(--font-mono);font-size:.85rem">${appt.nin}</td>
+      <td style="font-size:.85rem">${appt.phone}</td>
+      <td>${appt.department}</td>
+      <td>${appt.preferred_doctor || 'Any'}</td>
+      <td style="font-size:.85rem">${formatDate(appt.preferred_date)}</td>
+      <td><span class="status-badge status-${appt.status}">${appt.status}</span></td>
+      <td>
+        <button class="action-btn view" onclick="viewDetail(${appt.id})">View</button>
+        ${appt.status === 'pending' ? `
+          <button class="action-btn confirm" onclick="updateStatus(${appt.id}, 'confirmed')">Confirm</button>
+          <button class="action-btn cancel" onclick="updateStatus(${appt.id}, 'cancelled')">Cancel</button>
+        ` : ''}
+        ${appt.status === 'confirmed' ? `
+          <button class="action-btn confirm" onclick="updateStatus(${appt.id}, 'completed')">Complete</button>
+          <button class="action-btn cancel" onclick="updateStatus(${appt.id}, 'cancelled')">Cancel</button>
+        ` : ''}
+      </td>
+    </tr>
+  `).join('');
+}
+
+// ── RENDER PAGINATION ───────────────────────────────────────────────────────
+function renderPagination() {
+  const container = document.getElementById('pagination-btns');
+  if (totalPages <= 1) {
+    container.innerHTML = '';
+    return;
+  }
+
+  let html = '';
+  if (currentPage > 1) {
+    html += `<button onclick="goToPage(1)" style="padding:6px 10px;border:1px solid #d1d5db;border-radius:4px;margin-right:4px">First</button>`;
+    html += `<button onclick="goToPage(${currentPage-1})" style="padding:6px 10px;border:1px solid #d1d5db;border-radius:4px;margin-right:4px">Prev</button>`;
+  }
+
+  const start = Math.max(1, currentPage - 2);
+  const end = Math.min(totalPages, currentPage + 2);
+  for (let i = start; i <= end; i++) {
+    if (i === currentPage) {
+      html += `<button style="padding:6px 10px;background:var(--teal-700);color:white;border:1px solid var(--teal-700);border-radius:4px;margin-right:4px;font-weight:600">${i}</button>`;
+    } else {
+      html += `<button onclick="goToPage(${i})" style="padding:6px 10px;border:1px solid #d1d5db;border-radius:4px;margin-right:4px">${i}</button>`;
+    }
+  }
+
+  if (currentPage < totalPages) {
+    html += `<button onclick="goToPage(${currentPage+1})" style="padding:6px 10px;border:1px solid #d1d5db;border-radius:4px;margin-right:4px">Next</button>`;
+    html += `<button onclick="goToPage(${totalPages})" style="padding:6px 10px;border:1px solid #d1d5db;border-radius:4px;margin-right:4px">Last</button>`;
+  }
+
+  container.innerHTML = html;
+}
+
+function goToPage(page) {
+  currentPage = page;
+  fetchAppointments();
+}
+
+// ── UPDATE STATUS ───────────────────────────────────────────────────────────
+async function updateStatus(id, status) {
+  if (!confirm(`Mark appointment as ${status}?`)) return;
+
+  const formData = new FormData();
+  formData.append('id', id);
+  formData.append('status', status);
+
+  try {
+    const response = await fetch(`${API_BASE}/update_status.php`, {
+      method: 'POST',
+      body: formData
+    });
+    const data = await response.json();
+
+    if (data.success) {
+      showToast(`Status updated to "${status}"`, 'success');
+      fetchAppointments(); // Refresh list
+    } else {
+      showError(data.error || 'Failed to update status');
+    }
+  } catch (err) {
+    showError('Network error: ' + err.message);
+  }
+}
+
+// ── VIEW DETAIL MODAL ───────────────────────────────────────────────────────
+function viewDetail(id) {
+  const appt = allAppts.find(a => a.id === id);
+  if (!appt) return;
+
+  const modal = document.createElement('div');
+  modal.style.cssText = `
+    position:fixed;top:0;left:0;right:0;bottom:0;
+    background:rgba(0,0,0,0.5);z-index:9999;
+    display:flex;align-items:center;justify-content:center;
+    padding:20px;
+  `;
+  modal.innerHTML = `
+    <div style="background:white;border-radius:12px;padding:40px;max-width:600px;max-height:80vh;overflow-y:auto;box-shadow:0 20px 25px rgba(0,0,0,0.15)">
+      <h2 style="margin:0 0 24px;color:var(--teal-900)">${appt.first_name} ${appt.last_name}</h2>
+      
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:24px">
+        <div class="detail-field">
+          <div class="detail-label">Reference</div>
+          <div class="detail-value" style="font-family:var(--font-mono)">${appt.ref}</div>
+        </div>
+        <div class="detail-field">
+          <div class="detail-label">Status</div>
+          <div class="detail-value"><span class="status-badge status-${appt.status}">${appt.status}</span></div>
+        </div>
+        <div class="detail-field">
+          <div class="detail-label">NIN</div>
+          <div class="detail-value" style="font-family:var(--font-mono)">${appt.nin}</div>
+        </div>
+        <div class="detail-field">
+          <div class="detail-label">Phone</div>
+          <div class="detail-value">${appt.phone}</div>
+        </div>
+        <div class="detail-field">
+          <div class="detail-label">Gender</div>
+          <div class="detail-value">${appt.gender || 'N/A'}</div>
+        </div>
+        <div class="detail-field">
+          <div class="detail-label">DOB</div>
+          <div class="detail-value">${appt.dob || 'N/A'}</div>
+        </div>
+        <div class="detail-field">
+          <div class="detail-label">Department</div>
+          <div class="detail-value">${appt.department}</div>
+        </div>
+        <div class="detail-field">
+          <div class="detail-label">Doctor</div>
+          <div class="detail-value">${appt.preferred_doctor || 'Any'}</div>
+        </div>
+        <div class="detail-field">
+          <div class="detail-label">Preferred Date</div>
+          <div class="detail-value">${formatDate(appt.preferred_date)}</div>
+        </div>
+        <div class="detail-field">
+          <div class="detail-label">Visit Type</div>
+          <div class="detail-value">${appt.visit_type}</div>
+        </div>
+      </div>
+
+      <div class="detail-field" style="margin-bottom:24px">
+        <div class="detail-label">Reason for Visit</div>
+        <div class="detail-value" style="line-height:1.6">${appt.reason}</div>
+      </div>
+
+      <div class="detail-field" style="margin-bottom:24px">
+        <div class="detail-label">Submitted At</div>
+        <div class="detail-value">${new Date(appt.submitted_at).toLocaleString()}</div>
+      </div>
+
+      <div style="display:flex;gap:10px;justify-content:flex-end">
+        <button onclick="this.closest('div').parentElement.style.display='none'" class="action-btn" style="border-color:#d1d5db;color:#374151">Close</button>
+      </div>
+    </div>
+  `;
+  document.body.appendChild(modal);
+  modal.onclick = (e) => { if (e.target === modal) modal.remove(); };
+}
+
+// ── EXPORT CSV ──────────────────────────────────────────────────────────────
+document.getElementById('export-csv').addEventListener('click', () => {
+  if (allAppts.length === 0) {
+    showToast('No appointments to export', 'info');
+    return;
+  }
+
+  const headers = ['Ref', 'First Name', 'Last Name', 'NIN', 'Phone', 'Gender', 'DOB', 'Department', 'Doctor', 'Reason', 'Date', 'Visit Type', 'Status', 'Submitted At'];
+  const rows = allAppts.map(a => [
+    a.ref, a.first_name, a.last_name, a.nin, a.phone, a.gender, a.dob,
+    a.department, a.preferred_doctor, a.reason, a.preferred_date, a.visit_type, a.status, a.submitted_at
+  ]);
+
+  let csv = headers.join(',') + '\n';
+  rows.forEach(row => {
+    csv += row.map(cell => `"${String(cell).replace(/"/g, '""')}"`).join(',') + '\n';
+  });
+
+  const blob = new Blob([csv], { type: 'text/csv' });
+  const url = window.URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url;
+  a.download = `mulago-appointments-${new Date().toISOString().split('T')[0]}.csv`;
+  a.click();
+  window.URL.revokeObjectURL(url);
+
+  showToast('CSV exported', 'success');
+});
+
+// ── LOGOUT ──────────────────────────────────────────────────────────────────
+document.getElementById('logout-btn').addEventListener('click', async () => {
+  try {
+    await fetch('../php/admin_logout.php', { method: 'POST' });
+  } catch (e) {}
+  sessionStorage.removeItem('admin_logged_in');
+  location.href = 'index.html';
+});
+
+// ── FILTER EVENTS ───────────────────────────────────────────────────────────
+['search-input', 'filter-dept', 'filter-status', 'filter-date'].forEach(id => {
+  const el = document.getElementById(id);
+  if (!el) return;
+  el.addEventListener('change', () => {
+    currentPage = 1;
+    fetchAppointments();
+  });
+  el.addEventListener('keyup', () => {
+    currentPage = 1;
+    fetchAppointments();
+  });
+});
+
+// ── TOAST NOTIFICATION ──────────────────────────────────────────────────────
+function showToast(msg, type = 'info') {
+  const container = document.getElementById('toast-container') || 
+    (() => {
+      const el = document.createElement('div');
+      el.id = 'toast-container';
+      el.style.cssText = 'position:fixed;top:100px;right:24px;z-index:9000;display:flex;flex-direction:column;gap:8px';
+      document.body.appendChild(el);
+      return el;
+    })();
+
+  const toast = document.createElement('div');
+  const bgColor = type === 'success' ? '#dcfce7' : type === 'error' ? '#fee2e2' : '#dbeafe';
+  const textColor = type === 'success' ? '#166534' : type === 'error' ? '#991b1b' : '#0c4a6e';
+  const icon = type === 'success' ? '✓' : type === 'error' ? '✕' : 'ℹ';
+
+  toast.style.cssText = `
+    background:${bgColor};color:${textColor};padding:12px 18px;border-radius:6px;
+    font-family:var(--font-mono);font-size:0.8rem;box-shadow:0 4px 12px rgba(0,0,0,0.1);
+    animation:slideIn 0.3s ease forwards;display:flex;align-items:center;gap:10px;
+  `;
+  toast.innerHTML = `<strong>${icon}</strong> <span>${msg}</span>`;
+  container.appendChild(toast);
+
+  setTimeout(() => {
+    toast.style.animation = 'slideOut 0.3s ease forwards';
+    setTimeout(() => toast.remove(), 300);
+  }, 4000);
+}
+
+function formatDate(dateStr) {
+  if (!dateStr) return 'N/A';
+  const date = new Date(dateStr);
+  return date.toLocaleDateString('en-US', { year:'numeric', month:'short', day:'numeric' });
+}
+
+// ── KEYBOARD SHORTCUTS ──────────────────────────────────────────────────────
+document.addEventListener('keydown', (e) => {
+  if (e.key === 'Escape') {
+    document.querySelectorAll('[style*="position:fixed"]').forEach(el => {
+      if (el.style.display !== 'none') el.style.display = 'none';
+    });
+  }
+});
+
+// ── INIT ────────────────────────────────────────────────────────────────────
+console.log('Appointments page loaded. Fetching data from PHP backend...');
+fetchAppointments();
+</script>
+</body>
+</html>
