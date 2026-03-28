@@ -123,8 +123,8 @@
               <input type="tel" id="f-phone" name="phone" class="form-control" placeholder="07XXXXXXXX" required>
             </div>
             <div class="form-group">
-              <label for="f-gender">Gender</label>
-              <select id="f-gender" name="gender" class="form-control">
+              <label for="f-gender">Gender <span class="required">*</span></label>
+              <select id="f-gender" name="gender" class="form-control" required>
                 <option value="">— Select —</option>
                 <option value="M">Male</option>
                 <option value="F">Female</option>
@@ -158,8 +158,9 @@
           </div>
           <div class="form-row">
             <div class="form-group">
-              <label for="f-pref-date">Preferred Date</label>
-              <input type="date" id="f-pref-date" name="preferred_date" class="form-control">
+              <label for="f-pref-date">Preferred Date <span class="required">*</span></label>
+              <input type="date" id="f-pref-date" name="preferred_date" class="form-control" required>
+              <p class="form-hint">Date must align with walk-in hours and preferred specialist availability.</p>
             </div>
             <div class="form-group">
               <label for="f-visit-type">Visit Type</label>
